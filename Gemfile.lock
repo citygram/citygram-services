@@ -7,13 +7,6 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
-    columnize (0.8.9)
-    debugger (1.6.7)
-      columnize (>= 0.3.1)
-      debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.3.5)
-    debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.3.5)
     dedent (1.0.1)
     dotenv (0.11.1)
       dotenv-deployment (~> 0.0.2)
@@ -43,7 +36,6 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
-  debugger
   dedent
   dotenv
   faraday
