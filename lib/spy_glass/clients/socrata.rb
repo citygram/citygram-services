@@ -5,7 +5,7 @@ module SpyGlass
     class Socrata < SpyGlass::Clients::JSON
       MissingAuthToken = Class.new StandardError
 
-      def intialize(attrs, &block)
+      def initialize(attrs, &block)
         @auth_token = attrs[:auth_token] || ENV['SOCRATA_APP_TOKEN'] || raise(MissingAuthToken)
         super attrs, &block
       end
