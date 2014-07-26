@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SpyGlass</title>
+</head>
+<body>
+<% SpyGlass::Registry.each do |glass| %>
+<p><a href="<%= glass.path %>"><%= glass.path %></a> (<a href="<%= glass.raw_path %>">raw</a>)</p>
+<% end %>
+</body>
+</html>
