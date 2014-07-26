@@ -8,7 +8,7 @@ opts = {
   source: 'http://data.seattle.gov/resource/3k2p-39jp?'+Rack::Utils.build_query({
     '$limit' => 100,
     '$order' => 'event_clearance_date DESC',
-    '$where' => <<-WHERE.dedent.gsub(/\n/, ' ')
+    '$where' => <<-WHERE.oneline
       longitude IS NOT NULL AND
       latitude IS NOT NULL AND
       event_clearance_date IS NOT NULL AND
