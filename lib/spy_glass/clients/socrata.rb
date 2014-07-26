@@ -12,7 +12,7 @@ module SpyGlass
 
       def build_connection(conn)
         super(conn)
-        conn.headers['X-App-Token'] = @auth_token if @auth_token
+        conn.headers['X-App-Token'] = @auth_token
       end
     end
   end
