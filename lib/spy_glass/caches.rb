@@ -1,3 +1,4 @@
+require 'active_support/per_thread_registry'
 require 'active_support/cache'
 
 module SpyGlass

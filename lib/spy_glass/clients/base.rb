@@ -47,6 +47,14 @@ module SpyGlass
         # handled by subclass
       end
 
+      def to_h
+        {
+          path: path,
+          cache_ttl: cache.options[:expires_in],
+          source: source,
+        }
+      end
+
       private
 
       def connection

@@ -16,9 +16,7 @@ SpyGlass::Registry.each do |glass|
   end
 end
 
-services = JSON.pretty_generate(
-  services: SpyGlass::Registry.map do |glass| { path: glass.path, source: glass.source } end
-)
+services = JSON.pretty_generate(services: SpyGlass::Registry.map(&:to_h))
 
 get '/services' do
   content_type :json
