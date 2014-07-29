@@ -34,8 +34,7 @@ module SpyGlass
       def get
         response = connection.get
 
-        # require 'debugger';debugger
-        unless (200..299).include? response.status.to_i
+        unless response.status == 200
           cache.clear
           raise 'failed request'
         end
