@@ -15,6 +15,8 @@ GEM
     eventmachine (1.0.3)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
     i18n (0.6.9)
     json (1.8.1)
     minitest (5.3.5)
@@ -45,6 +47,7 @@ DEPENDENCIES
   dedent
   dotenv
   faraday
+  faraday_middleware
   money
   sinatra
   thin

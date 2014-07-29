@@ -6,13 +6,13 @@ require 'spy_glass'
 
 SpyGlass::Registry.each do |glass|
   get(glass.path) do
-    content_type :json
+    content_type glass.content_type
     glass.cooked
   end
 
   get(glass.raw_path) do
-    content_type :json
-    glass.generator.call(glass.raw)
+    content_type glass.content_type
+    glass.raw
   end
 end
 

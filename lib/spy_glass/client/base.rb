@@ -1,45 +1,35 @@
 require 'faraday'
+require 'faraday_middleware'
 require 'spy_glass/cache'
 
 module SpyGlass
   module Client
     class Base
       IDENTITY = ->(v){v}
+      RequestFailed = Class.new StandardError
 
       attr_accessor :path, :raw_path, :source, :cache,
-                    :parser, :generator, :transform
+                    :content_type, :parser, :generator, :transform
 
       def initialize(attrs, &block)
-        @path      = attrs.fetch(:path)
-        @raw_path  = "#{path}/raw"
-        @source    = attrs.fetch(:source)
-        @cache     = attrs.fetch(:cache) { SpyGlass::Cache::Null.new }
-        @parser    = attrs.fetch(:parser) { IDENTITY }
-        @generator = attrs.fetch(:generator) { IDENTITY }
-        @transform = block || IDENTITY
+        @path         = attrs.fetch(:path)
+        @raw_path     = "#{path}/raw"
+        @source       = attrs.fetch(:source)
+        @content_type = attrs.fetch(:content_type, 'text/html')
+        @cache        = attrs.fetch(:cache) { SpyGlass::Cache::Null.new }
+        @parser       = attrs.fetch(:parser, IDENTITY)
+        @generator    = attrs.fetch(:generator, IDENTITY)
+        @transform    = block || IDENTITY
       end
 
       def cooked
         cache.fetch(path) do
-          generator.call(transform.call(raw))
+          generator.(transform.(parser.(raw)))
         end
       end
 
       def raw
-        cache.fetch(source) do
-          parser.call(get)
-        end
-      end
-
-      def get
-        response = connection.get
-
-        unless response.status == 200
-          cache.clear
-          raise 'failed request'
-        end
-
-        response.body
+        connection.get.body
       end
 
       def build_connection(conn)
@@ -58,6 +48,8 @@ module SpyGlass
 
       def connection
         @connection ||= Faraday.new(url: source) do |conn|
+          conn.headers['Content-Type'] = content_type
+          conn.response :caching, cache
           build_connection(conn)
           conn.adapter Faraday.default_adapter
         end
