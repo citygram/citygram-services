@@ -6,7 +6,6 @@ module SpyGlass
   module Client
     class Base
       IDENTITY = ->(v){v}
-      RequestFailed = Class.new StandardError
 
       attr_accessor :path, :raw_path, :source, :cache,
                     :content_type, :parser, :generator, :transform
