@@ -7,8 +7,8 @@ module SpyGlass
     class Base
       IDENTITY = ->(v){v}
 
-      attr_accessor :path, :raw_path, :source, :cache,
-                    :content_type, :parser, :generator, :transform
+      attr_reader :path, :raw_path, :source, :cache,
+                  :content_type, :parser, :generator, :transform
 
       def initialize(attrs, &block)
         @path         = attrs.fetch(:path)
