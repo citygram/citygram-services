@@ -19,7 +19,7 @@ opts = {
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
     title = <<-TITLE.oneline
-      There's been a #{item['case_group'].downcase} code violation near you at #{item['address']}.
+      There's been a #{item['case_group'].downcase} code violation near you at #{item['address'].titlecase}.
       Its status is "#{item['status'].downcase}", and you can find out more at #{item['permit_and_complaint_status_url']['url']}.
     TITLE
 
