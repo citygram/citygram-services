@@ -2,7 +2,7 @@ require 'active_support/per_thread_registry'
 require 'active_support/cache'
 
 module SpyGlass
-  module Caches
+  module Cache
     class Null < ActiveSupport::Cache::NullStore
     end
 

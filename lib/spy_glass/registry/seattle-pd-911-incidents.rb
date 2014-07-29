@@ -2,7 +2,7 @@ require 'spy_glass/registry'
 
 opts = {
   path: '/seattle-pd-911-incidents',
-  cache: SpyGlass::Caches::Memory.new,
+  cache: SpyGlass::Cache::Memory.new,
   source: 'http://data.seattle.gov/resource/3k2p-39jp?'+Rack::Utils.build_query({
     '$limit' => 100,
     '$order' => 'event_clearance_date DESC',
@@ -16,7 +16,7 @@ opts = {
   })
 }
 
-SpyGlass::Registry << SpyGlass::Clients::Socrata.new(opts) do |collection|
+SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
     title = <<-TITLE.oneline
       A 911 incident has occurred near you at #{item['hundred_block_location']}.

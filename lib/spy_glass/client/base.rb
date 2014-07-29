@@ -1,8 +1,8 @@
 require 'faraday'
-require 'spy_glass/caches'
+require 'spy_glass/cache'
 
 module SpyGlass
-  module Clients
+  module Client
     class Base
       IDENTITY = ->(v){v}
 
@@ -13,7 +13,7 @@ module SpyGlass
         @path      = attrs.fetch(:path)
         @raw_path  = "#{path}/raw"
         @source    = attrs.fetch(:source)
-        @cache     = attrs.fetch(:cache) { SpyGlass::Caches::Null.new }
+        @cache     = attrs.fetch(:cache) { SpyGlass::Cache::Null.new }
         @parser    = attrs.fetch(:parser) { IDENTITY }
         @generator = attrs.fetch(:generator) { IDENTITY }
         @transform = block || IDENTITY

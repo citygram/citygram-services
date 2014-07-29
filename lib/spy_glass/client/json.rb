@@ -1,8 +1,8 @@
 require 'json'
-require 'spy_glass/clients/base'
+require 'spy_glass/client/base'
 
 module SpyGlass
-  module Clients
+  module Client
     class JSON < Base
       DEFAULT_OPTIONS = {
         parser: ::JSON.method(:parse),

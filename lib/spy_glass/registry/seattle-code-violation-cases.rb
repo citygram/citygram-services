@@ -2,7 +2,7 @@ require 'spy_glass/registry'
 
 opts = {
   path: '/seattle-code-violation-cases',
-  cache: SpyGlass::Caches::Memory.new(expires_in: 1200),
+  cache: SpyGlass::Cache::Memory.new(expires_in: 1200),
   source: 'http://data.seattle.gov/resource/dk8m-pdjf?'+Rack::Utils.build_query({
     '$limit' => 250,
     '$order' => 'date_case_created DESC',
@@ -16,7 +16,7 @@ opts = {
   })
 }
 
-SpyGlass::Registry << SpyGlass::Clients::Socrata.new(opts) do |collection|
+SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
     title = <<-TITLE.oneline
       There's been a #{item['case_group'].downcase} code violation near you at #{item['address']}.

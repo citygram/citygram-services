@@ -2,7 +2,7 @@ require 'spy_glass/registry'
 
 opts = {
   path: '/seattle-building-permits',
-  cache: SpyGlass::Caches::Memory.new(expires_in: 1200),
+  cache: SpyGlass::Cache::Memory.new(expires_in: 1200),
   source: 'http://data.seattle.gov/resource/mags-97de?'+Rack::Utils.build_query({
     '$limit' => 250,
     '$order' => 'application_date DESC',
@@ -18,7 +18,7 @@ opts = {
   })
 }
 
-SpyGlass::Registry << SpyGlass::Clients::Socrata.new(opts) do |collection|
+SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
     title = <<-TITLE.oneline
       Hi! A building permit for #{item['category'].downcase} #{item['permit_type'].downcase} has been submitted near you at #{item['address']}.

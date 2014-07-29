@@ -1,8 +1,8 @@
-require 'spy_glass/clients/json'
+require 'spy_glass/client/json'
 
 module SpyGlass
-  module Clients
-    class Socrata < SpyGlass::Clients::JSON
+  module Client
+    class Socrata < SpyGlass::Client::JSON
       MissingAuthToken = Class.new StandardError
 
       def initialize(attrs, &block)

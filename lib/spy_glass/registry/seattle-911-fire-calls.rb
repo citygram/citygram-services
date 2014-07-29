@@ -4,7 +4,7 @@ time_zone = ActiveSupport::TimeZone["Pacific Time (US & Canada)"]
 
 opts = {
   path: '/seattle-911-fire-calls',
-  cache: SpyGlass::Caches::Memory.new(expires_in: 300),
+  cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'http://data.seattle.gov/resource/kzjm-xkqj?'+Rack::Utils.build_query({
     '$limit' => 250,
     '$order' => 'datetime DESC',
@@ -19,7 +19,7 @@ opts = {
   })
 }
 
-SpyGlass::Registry << SpyGlass::Clients::Socrata.new(opts) do |collection|
+SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
     time = Time.at(item['datetime']).in_time_zone(time_zone)
     title = <<-TITLE.oneline

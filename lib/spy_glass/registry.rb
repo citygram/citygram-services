@@ -3,7 +3,7 @@ require 'active_support/time'
 require 'dedent'
 require 'money'
 require 'rack/utils'
-require 'spy_glass/clients'
+require 'spy_glass/client'
 
 module SpyGlass
   Registry = []
