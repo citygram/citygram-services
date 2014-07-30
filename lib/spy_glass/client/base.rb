@@ -38,6 +38,7 @@ module SpyGlass
       def to_h
         {
           path: path,
+          content_type: content_type,
           cache_ttl: cache.options[:expires_in],
           source: source,
         }
