@@ -4,7 +4,7 @@ opts = {
   path: '/seattle-code-violation-cases',
   cache: SpyGlass::Cache::Memory.new(expires_in: 1200),
   source: 'http://data.seattle.gov/resource/dk8m-pdjf?'+Rack::Utils.build_query({
-    '$limit' => 250,
+    '$limit' => 100,
     '$order' => 'date_case_created DESC',
     '$where' => <<-WHERE.oneline
       longitude IS NOT NULL AND

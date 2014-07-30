@@ -4,7 +4,7 @@ opts = {
   path: '/seattle-building-permits',
   cache: SpyGlass::Cache::Memory.new(expires_in: 1200),
   source: 'http://data.seattle.gov/resource/mags-97de?'+Rack::Utils.build_query({
-    '$limit' => 250,
+    '$limit' => 100,
     '$order' => 'application_date DESC',
     '$where' => <<-WHERE.oneline
       status = 'Application Accepted' AND

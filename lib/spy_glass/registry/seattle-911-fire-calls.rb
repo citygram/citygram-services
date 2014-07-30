@@ -6,7 +6,7 @@ opts = {
   path: '/seattle-911-fire-calls',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'http://data.seattle.gov/resource/kzjm-xkqj?'+Rack::Utils.build_query({
-    '$limit' => 250,
+    '$limit' => 100,
     '$order' => 'datetime DESC',
     '$where' => <<-WHERE.oneline
       longitude IS NOT NULL AND
