@@ -4,6 +4,10 @@ require 'sinatra'
 $: << './lib'
 require 'spy_glass'
 
+configure :production do
+  require 'newrelic_rpm'
+end
+
 SpyGlass::Registry.each do |glass|
   get(glass.path) do
     content_type glass.content_type

@@ -23,6 +23,7 @@ GEM
     money (6.1.1)
       i18n (~> 0.6.4)
     multipart-post (2.0.0)
+    newrelic_rpm (3.8.1.221)
     rack (1.5.2)
     rack-protection (1.5.3)
       rack
@@ -49,5 +50,6 @@ DEPENDENCIES
   faraday
   faraday_middleware
   money
+  newrelic_rpm
   sinatra
   thin
