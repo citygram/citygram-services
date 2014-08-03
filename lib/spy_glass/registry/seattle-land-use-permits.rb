@@ -22,8 +22,8 @@ opts = {
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
     title = <<-TITLE.oneline
-      A #{item['category'].downcase} land use permit near you at #{item['address']} has been filed.
-      It is a #{item['permit_type'].downcase} permit type, and you can find out more at #{item['permit_and_complaint_status_url']['url']}.
+      #{SpyGlass::Salutations.next} A #{item['category'].downcase} land use permit near you at #{item['address']} has been filed.
+      Find out more at #{item['permit_and_complaint_status_url']['url']}.
     TITLE
 
     {
