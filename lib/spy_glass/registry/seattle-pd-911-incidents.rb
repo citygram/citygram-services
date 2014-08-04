@@ -3,7 +3,7 @@ require 'spy_glass/registry'
 opts = {
   path: '/seattle-pd-911-incidents',
   cache: SpyGlass::Cache::Memory.new,
-  source: 'http://data.seattle.gov/resource/3k2p-39jp?'+Rack::Utils.build_query({
+  source: 'https://data.seattle.gov/resource/3k2p-39jp?'+Rack::Utils.build_query({
     '$limit' => 100,
     '$order' => 'event_clearance_date DESC',
     '$where' => <<-WHERE.oneline

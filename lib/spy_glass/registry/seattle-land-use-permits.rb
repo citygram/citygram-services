@@ -3,7 +3,7 @@ require 'spy_glass/registry'
 opts = {
   path: '/seattle-land-use-permits',
   cache: SpyGlass::Cache::Memory.new(expires_in: 3600),
-  source: 'http://data.seattle.gov/resource/uyyd-8gak?'+Rack::Utils.build_query({
+  source: 'https://data.seattle.gov/resource/uyyd-8gak?'+Rack::Utils.build_query({
     '$limit' => 100,
     '$order' => 'application_date DESC',
     '$where' => <<-WHERE.oneline

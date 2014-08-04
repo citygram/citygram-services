@@ -5,7 +5,7 @@ time_zone = ActiveSupport::TimeZone["Pacific Time (US & Canada)"]
 opts = {
   path: '/seattle-911-fire-calls',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
-  source: 'http://data.seattle.gov/resource/kzjm-xkqj?'+Rack::Utils.build_query({
+  source: 'https://data.seattle.gov/resource/kzjm-xkqj?'+Rack::Utils.build_query({
     '$limit' => 100,
     '$order' => 'datetime DESC',
     '$where' => <<-WHERE.oneline
