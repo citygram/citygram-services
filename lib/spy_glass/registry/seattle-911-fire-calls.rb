@@ -9,6 +9,7 @@ opts = {
     '$limit' => 100,
     '$order' => 'datetime DESC',
     '$where' => <<-WHERE.oneline
+      type != 'Aid Response' AND
       longitude IS NOT NULL AND
       latitude IS NOT NULL AND
       datetime IS NOT NULL AND
