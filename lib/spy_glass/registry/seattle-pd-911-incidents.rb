@@ -7,6 +7,8 @@ opts = {
     '$limit' => 100,
     '$order' => 'event_clearance_date DESC',
     '$where' => <<-WHERE.oneline
+      event_clearance_group != 'TRAFFIC RELATED CALLS' AND
+      event_clearance_group != 'FALSE ALARMS' AND
       longitude IS NOT NULL AND
       latitude IS NOT NULL AND
       event_clearance_date IS NOT NULL AND
