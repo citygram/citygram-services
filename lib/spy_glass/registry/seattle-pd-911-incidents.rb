@@ -9,6 +9,7 @@ opts = {
     '$where' => <<-WHERE.oneline
       event_clearance_group != 'TRAFFIC RELATED CALLS' AND
       event_clearance_group != 'FALSE ALARMS' AND
+      initial_type_description != 'DISTURBANCE, MISCELLANEOUS/OTHER' AND
       longitude IS NOT NULL AND
       latitude IS NOT NULL AND
       event_clearance_date IS NOT NULL AND
