@@ -1,6 +1,7 @@
 require 'active_support/inflector/inflections'
 require 'active_support/time'
 require 'core_ext/string'
+require 'erb'
 require 'money'
 require 'rack/utils'
 require 'spy_glass/client'

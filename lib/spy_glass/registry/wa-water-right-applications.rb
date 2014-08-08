@@ -18,20 +18,24 @@ opts = {
   })
 }
 
+template = ERB.new <<-ERB.oneline
+  <%= SpyGlass::Salutations.next %> <%= opening %> was filed in <%= county_name %> for the <%= watershed %> watershed.
+  The person/org listed is <%= filer %>. Find out more: <%= url %>.
+ERB
+
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
-    title = case item['document_type'].downcase
+    opening = case item['document_type'].downcase
     when 'newapp'
-      'A new water right application was '
+      'A new water right application'
     when 'change application'
-      'An application for change of water right was '
+      'An application for change of water right'
     end
 
-    title += <<-TITLE.oneline
-      filed in #{item['county_name'].titleize} County for the
-      #{item['wria_nm']} watershed. The person/org listed is "#{item['person_last_or_organization_name']}".
-      Find out more: #{item['map_url']['url']}.
-    TITLE
+    county_name = "#{item['county_name'].titleize} County"
+    watershed = item['wria_nm']
+    filer = item['person_last_or_organization_name']
+    url = item['map_url']['url']
 
     {
       'id' => item['wr_doc_id'],
@@ -43,7 +47,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
           item['latitude1'].to_f
         ]
       },
-      'properties' => item.merge('title' => title)
+      'properties' => item.merge('title' => template.result(binding))
     }
   end
 
