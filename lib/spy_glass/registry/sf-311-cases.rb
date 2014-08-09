@@ -22,13 +22,15 @@ downcase_regexp = Regexp.union(downcase_words.map{|w| /#{w}/i })
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
-    address = item['address'].titleize.gsub(downcase_regexp, &:downcase)
-
     title = <<-TITLE.oneline
-      A new 311 case has been opened at #{address} in the #{item['neighborhood']} neighborhood.
+      A new 311 case has been opened at #{item['address'].titleize} in the #{item['neighborhood']} neighborhood.
       The category is "#{item['category']}".
       Find out more: http://crmproxy.sfgov.org/selfservice/trackcase.jsp?ref=#{item['case_id']}.
     TITLE
+
+    title.gsub!(downcase_regexp, &:downcase)
+    title.gsub!(/(\,*) san francisco\,\ ca\,\ (\d*)/i, '')
+    title.gsub!(/\s{2,}/, ' ')
 
     {
       'id' => item['case_id'],
