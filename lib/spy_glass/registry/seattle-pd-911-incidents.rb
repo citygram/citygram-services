@@ -3,7 +3,7 @@ require 'spy_glass/registry'
 time_zone = ActiveSupport::TimeZone["Pacific Time (US & Canada)"]
 title_template = ERB.new(<<-ERB.oneline)
   A 911 incident occurred near you at <%= block_location %>.
-  It was described as "<%= description %>" and was cleared at <%= clearance_time %>.
+  It was described as "<%= description %>" and has been cleared.
   <% if duration %>The incident remained open for <%= duration %>.<% end %>
 ERB
 
