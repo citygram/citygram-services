@@ -4,7 +4,7 @@ opts = {
   path: '/sf-311-cases',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'https://data.sfgov.org/resource/vw6y-z8j6?'+Rack::Utils.build_query({
-    '$limit' => 100,
+    '$limit' => 1000,
     '$order' => 'opened DESC',
     '$where' => <<-WHERE.oneline
       opened >= '#{7.days.ago.iso8601}' AND
