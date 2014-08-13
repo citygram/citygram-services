@@ -22,7 +22,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
     title = <<-TITLE.oneline
       #{SpyGlass::Salutations.next} A building permit for #{item['category'].downcase} #{item['permit_type'].downcase} has been submitted near you at #{item['address']}.
-      The proposed value is #{Money.new(item['value'].to_i*100, 'USD').format}.
+      The proposed value is #{Money.us_dollar(item['value'].to_i*100).format(no_cents: true)}.
       Find out more at #{item['permit_and_complaint_status_url']['url']}.
     TITLE
 
