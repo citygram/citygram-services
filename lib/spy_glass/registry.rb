@@ -1,5 +1,6 @@
 require 'active_support/inflector/inflections'
 require 'active_support/time'
+require 'action_view'
 require 'core_ext/string'
 require 'erb'
 require 'money'

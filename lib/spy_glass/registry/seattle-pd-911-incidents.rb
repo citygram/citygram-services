@@ -19,11 +19,57 @@ opts = {
   })
 }
 
+class EventDuration
+  include ActionView::Helpers::TextHelper
+
+  def initialize(start, finish)
+    @start = DateTime.parse(start)
+    @finish = DateTime.parse(finish)
+  end
+
+  def to_s
+    if hours > 0
+      "#{pluralize(hours, 'hour')} #{pluralize(minutes, 'minute')}"
+    else
+      pluralize(minutes, 'minute')
+    end
+  end
+
+  def minutes
+    (duration_minutes % 60).round(0)
+  end
+
+  def hours
+    duration_hours.round(0)
+  end
+
+  def duration_minutes
+    duration_hours * 60
+  end
+
+  def duration_hours
+    duration_days * 24
+  end
+
+  def duration_days
+    (@finish - @start).to_f
+  end
+end
+
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
+    duration = nil
+    if at_scene_time = item['at_scene_time']
+      duration = EventDuration.new(at_scene_time, item['event_clearance_date']).to_s
+    end
+
+    block_location = item['hundred_block_location']
+    description = item['event_clearance_description'].downcase
+
     title = <<-TITLE.oneline
-      A 911 incident has occurred near you at #{item['hundred_block_location']}.
-      It was described as "#{item['event_clearance_description'].downcase}" and has been cleared.
+      A 911 incident has occurred near you at <%= block_location %>.
+      It was described as "<%= description %>" and has been cleared.
+      <% if duration %>The incident lasted <%= duration %>.<% end %>
     TITLE
 
     {
@@ -36,7 +82,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
           item['latitude'].to_f
         ]
       },
-      'properties' => item.merge('title' => title)
+      'properties' => item.merge('title' => ERB.new(title).result(binding).strip)
     }
   end
 
