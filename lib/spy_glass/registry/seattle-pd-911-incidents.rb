@@ -1,5 +1,12 @@
 require 'spy_glass/registry'
 
+time_zone = ActiveSupport::TimeZone["Pacific Time (US & Canada)"]
+title_template = ERB.new(<<-ERB.oneline)
+  A 911 incident has occurred near you at <%= block_location %>.
+  It was described as "<%= description %>" and was cleared at <%= clearance_time %>.
+  <% if duration %>The incident remained open for <%= duration %>.<% end %>
+ERB
+
 opts = {
   path: '/seattle-pd-911-incidents',
   cache: SpyGlass::Cache::Memory.new,
@@ -58,19 +65,17 @@ end
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
-    duration = nil
-    if at_scene_time = item['at_scene_time']
-      duration = EventDuration.new(at_scene_time, item['event_clearance_date']).to_s
-    end
+    clearance_time = DateTime.parse(item['event_clearance_date']).
+                              in_time_zone(time_zone).
+                              strftime('%I:%M%p')
 
     block_location = item['hundred_block_location']
     description = item['event_clearance_description'].downcase
+    duration = nil
 
-    title = <<-TITLE.oneline
-      A 911 incident has occurred near you at <%= block_location %>.
-      It was described as "<%= description %>" and has been cleared.
-      <% if duration %>The incident lasted <%= duration %>.<% end %>
-    TITLE
+    if at_scene_time = item['at_scene_time']
+      duration = EventDuration.new(at_scene_time, item['event_clearance_date']).to_s
+    end
 
     {
       'id' => item['cad_cdw_id'],
@@ -82,7 +87,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
           item['latitude'].to_f
         ]
       },
-      'properties' => item.merge('title' => ERB.new(title).result(binding).strip)
+      'properties' => item.merge('title' => title_template.result(binding).strip)
     }
   end
 
