@@ -2,9 +2,7 @@ require 'spy_glass/registry'
 
 time_zone = ActiveSupport::TimeZone["Pacific Time (US & Canada)"]
 title_template = ERB.new(<<-ERB.oneline)
-  A 911 incident occurred near you at <%= block_location %>.
-  It was described as "<%= description %>" and has been cleared.
-  <% if duration %>The incident remained open for <%= duration %>.<% end %>
+A 911 incident occurred near you at <%= block_location %>. It was described as "<%= description %>" and has been cleared. <% if duration %>The incident remained open for <%= duration %>. <% end %>The general offense (GO) # is <%= general_offense_number %>.
 ERB
 
 opts = {
@@ -69,6 +67,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
                               in_time_zone(time_zone).
                               strftime('%I:%M%p')
 
+    general_offense_number = item['general_offense_number']
     block_location = item['hundred_block_location']
     description = item['event_clearance_description'].downcase
     duration = nil
