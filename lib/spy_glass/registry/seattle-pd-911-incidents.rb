@@ -2,8 +2,15 @@ require 'spy_glass/registry'
 
 time_zone = ActiveSupport::TimeZone["Pacific Time (US & Canada)"]
 title_template = ERB.new(<<-ERB.oneline)
-A 911 incident occurred near you at <%= block_location %>. It was described as "<%= description %>" and has been cleared. <% if duration %>The incident remained open for <%= duration %>. <% end %>The general offense (GO) # is <%= general_offense_number %>.
+A 911 Police incident occurred near you at <%= block_location %>. It was described as "<%= description %>" and has been cleared. <% if duration %>The incident remained open for <%= duration %>. <% end %>The general offense (GO) # is <%= general_offense_number %>.
 ERB
+
+clearance_descriptions = [
+  'ASSAULTS, OTHER',
+  'BURGLARY - COMMERCIAL',
+  'CASUALTY',
+  'FIGHT DISTURBANCE'
+].map{|d| "event_clearance_description = '#{d}'" }.join(' OR ')
 
 opts = {
   path: '/seattle-pd-911-incidents',
@@ -12,13 +19,10 @@ opts = {
     '$limit' => 100,
     '$order' => 'event_clearance_date DESC',
     '$where' => <<-WHERE.oneline
-      event_clearance_group != 'TRAFFIC RELATED CALLS' AND
-      event_clearance_group != 'FALSE ALARMS' AND
-      initial_type_description != 'DISTURBANCE, MISCELLANEOUS/OTHER' AND
+      (#{clearance_descriptions}) AND
       longitude IS NOT NULL AND
       latitude IS NOT NULL AND
       event_clearance_date IS NOT NULL AND
-      event_clearance_description IS NOT NULL AND
       hundred_block_location IS NOT NULL
     WHERE
   })
