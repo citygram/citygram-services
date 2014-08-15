@@ -25,7 +25,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     title = <<-TITLE.oneline
       A new 311 case has been opened at #{item['address'].titleize} in the #{item['neighborhood']} neighborhood.
       The category is "#{item['category'].downcase}".
-      Find out more: http://crmproxy.sfgov.org/selfservice/trackcase.jsp?ref=#{item['case_id']}.
+      Find out more: http://crmproxy.sfgov.org/selfservice/trackcase.jsp?ref=#{item['case_id']}
     TITLE
 
     title.gsub!(downcase_regexp, &:downcase)

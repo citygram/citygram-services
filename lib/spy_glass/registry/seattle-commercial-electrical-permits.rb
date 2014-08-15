@@ -22,7 +22,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
     title = <<-TITLE.oneline
       #{SpyGlass::Salutations.next} #{item['applicant_name'].titleize} has applied for a commercial electrical permit at #{item['address'].titleize}.
-      Find out more at #{item['permit_and_complaint_status_url']['url']}.
+      Find out more at #{item['permit_and_complaint_status_url']['url']}
     TITLE
 
     {

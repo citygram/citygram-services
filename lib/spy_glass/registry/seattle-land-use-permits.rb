@@ -23,7 +23,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
     title = <<-TITLE.oneline
       #{SpyGlass::Salutations.next} A #{item['category'].downcase} land use permit near you at #{item['address']} has been filed.
-      Find out more at #{item['permit_and_complaint_status_url']['url']}.
+      Find out more at #{item['permit_and_complaint_status_url']['url']}
     TITLE
 
     {

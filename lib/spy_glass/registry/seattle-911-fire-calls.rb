@@ -26,7 +26,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     title = <<-TITLE.oneline
       Seattle Fire Department was dispatched to #{item['address']} at around #{time.strftime('%I:%M%P')}.
       The event was categorized as "#{item['type'].downcase}".
-      Find out more: http://www2.seattle.gov/fire/IncidentSearch/incidentDetail.asp?ID=#{item['incident_number']}.
+      Find out more: http://www2.seattle.gov/fire/IncidentSearch/incidentDetail.asp?ID=#{item['incident_number']}
     TITLE
 
     {

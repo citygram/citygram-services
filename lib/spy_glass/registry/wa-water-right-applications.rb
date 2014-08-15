@@ -20,7 +20,7 @@ opts = {
 
 template = ERB.new <<-ERB.oneline
   <%= SpyGlass::Salutations.next %> <%= opening %> was filed in <%= county_name %> for the <%= watershed %> watershed.
-  The person/org listed is <%= filer %>. Find out more: <%= url %>.
+  The person/org listed is <%= filer %>. Find out more: <%= url %>
 ERB
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
