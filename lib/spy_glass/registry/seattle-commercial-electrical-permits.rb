@@ -9,6 +9,7 @@ opts = {
     '$where' => <<-WHERE.oneline
       status = 'Application Accepted' AND
       category = 'COMMERCIAL' AND
+      applicant_name IS NOT NULL AND
       longitude IS NOT NULL AND
       latitude IS NOT NULL AND
       application_date IS NOT NULL AND
