@@ -19,9 +19,9 @@ downcase_regexp = Regexp.union(downcase_words.map{|w| /#{w}/i })
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection['result']['records'].map do |item|
-    title = "Code Enforcement case status updated to '#{item['Status']}'"
+    title = "The code enforcement case number #{item['CaseNo']} was updated to '#{item['Status']}' for #{item['Address']}"
     {
-      'id' => item['CaseNo'],
+      'id' => "#{item['CaseNo']}_#{item['Status']}",
       'type' => 'Feature',
       'geometry' => {
         'type' => 'Point',
