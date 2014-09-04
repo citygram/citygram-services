@@ -6,20 +6,19 @@ opts = {
   source: 'http://104.131.23.252/api/action/datastore_search_sql?'+Rack::Utils.build_query({
     'resource_id' => 'complaints-2',
     'sql' => <<-WHERE.oneline
-      select * from "complaints-2"
-      where "StatusDate" > (now() - '7 day'::interval)
-      and lat IS NOT NULL
-      and lng IS NOT NULL
+      SELECT * from "complaints-2"
+      WHERE "StatusDate" > (now() - '7 day'::interval)
+      AND lat IS NOT NULL
+      AND lng IS NOT NULL
     WHERE
   })
 }
 
-downcase_words = %w(intersection of and).freeze
-downcase_regexp = Regexp.union(downcase_words.map{|w| /#{w}/i })
-
-SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
+SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   features = collection['result']['records'].map do |item|
-    title = "The code enforcement case number #{item['CaseNo']} was updated to '#{item['Status']}' for #{item['Address']}"
+    title = <<-TITLE.oneline
+      The code enforcement case number #{item['CaseNo']} was updated to '#{item['Status']}' for #{item['Address']}"
+    TITLE
     {
       'id' => "#{item['CaseNo']}_#{item['Status']}",
       'type' => 'Feature',
@@ -32,7 +31,6 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
       },
       'properties' => item.merge('title' => title)
     }
-    # 'foo'
   end
 
   {'type' => 'FeatureCollection', 'features' => features}
