@@ -22,8 +22,8 @@ TODO
 * [Install Ruby](https://github.com/codeforamerica/howto/blob/master/Ruby.md)
 
 ```
-git clone https://github.com/citygram/spy_glass.git
-cd spy_glass
+git clone https://github.com/citygram/citygram-services.git
+cd citygram-services
 cp .env.sample .env
 gem install bundler
 bundle install
