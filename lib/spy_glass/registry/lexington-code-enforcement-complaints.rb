@@ -4,9 +4,9 @@ opts = {
   path: '/lexington-code-enforcement-complaints',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'http://104.131.23.252/api/action/datastore_search_sql?'+Rack::Utils.build_query({
-    'resource_id' => 'complaints-2',
+    'resource_id' => 'complaints-4',
     'sql' => <<-WHERE.oneline
-      SELECT * from "complaints-2"
+      SELECT * from "complaints-4"
       WHERE "StatusDate" > (now() - '7 day'::interval)
       AND lat IS NOT NULL
       AND lng IS NOT NULL
