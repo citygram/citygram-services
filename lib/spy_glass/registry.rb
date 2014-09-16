@@ -12,15 +12,14 @@ require 'spy_glass/client'
 
 module SpyGlass
   module Utils
-    SPC2LatLng = <<-SQL.freeze
-      SELECT ST_AsGeoJSON(ST_Transform(ST_SetSRID(ST_MakePoint(?::numeric, ?::numeric), 3359), 4326)) AS latlng
-    SQL
-
     DB = Sequel.connect(ENV.fetch('DATABASE_URL'))
     DB.loggers << Logger.new(STDOUT)
 
-    def self.convert_spc_to_latlng(x, y)
-      geojson = DB.dataset.with_sql(SPC2LatLng, x, y).get
+    def self.point_srid_transform(x, y, _from, _to = 4326)
+      geojson = DB.dataset.with_sql(<<-SQL, x, y, _from, _to).get
+        SELECT ST_AsGeoJSON(ST_Transform(ST_SetSRID(ST_MakePoint(?::numeric, ?::numeric), ?), ?)) AS latlng
+      SQL
+
       JSON.parse(geojson)['coordinates']
     end
   end

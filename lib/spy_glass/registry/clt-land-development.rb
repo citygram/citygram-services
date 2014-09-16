@@ -21,7 +21,7 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
   features = body['result']['records'].map do |record|
-    lat, lng = SpyGlass::Utils.convert_spc_to_latlng(record['X_COORD'], record['Y_COORD'])
+    lat, lng = SpyGlass::Utils.point_srid_transform(record['X_COORD'], record['Y_COORD'], 3359, 4326)
 
     {
       'id' => record['PROJECTNUMBER'],
