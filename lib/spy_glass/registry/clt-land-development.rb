@@ -4,7 +4,9 @@ sql = <<-SQL.gsub(/(\s{2,}|\n)/, " ").strip
 SELECT "9f57ae4b-fc62-4ae3-895d-aece0e759b5c".*
 FROM "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"
 WHERE "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."X_COORD" IS NOT NULL
+AND "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."X_COORD" != '0'
 AND "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."Y_COORD" IS NOT NULL
+AND "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."Y_COORD" != '0'
 AND "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."PROJECTDESCRIPTION" IS NOT NULL
 AND "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."OWNERNAME" IS NOT NULL
 ORDER BY "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."RECORDOPENDATE" DESC
