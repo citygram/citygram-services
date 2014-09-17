@@ -9,6 +9,7 @@ opts = {
       WHERE "Date" > (now() - '7 day'::interval)
       AND lat IS NOT NULL
       AND lng IS NOT NULL
+      LIMIT 1000
     WHERE
   })
 }
