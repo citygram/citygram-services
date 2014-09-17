@@ -21,14 +21,14 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
   features = body['result']['records'].map do |record|
-    lat, lng = SpyGlass::Utils.point_srid_transform(record['X_COORD'], record['Y_COORD'], 3359, 4326)
+    lon, lat = SpyGlass::Utils.point_srid_transform(record['X_COORD'], record['Y_COORD'], 3359, 4326)
 
     {
       'id' => record['PROJECTNUMBER'],
       'type' => 'Feature',
       'geometry' => {
         'type' => 'Point',
-        'coordinates' => [lat,lng]
+        'coordinates' => [lon,lat]
       },
       'properties' => record.merge(
         'title' => record['PROJECTDESCRIPTION'],
