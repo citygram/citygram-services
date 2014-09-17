@@ -3,11 +3,27 @@ require 'active_support/time'
 require 'action_view'
 require 'core_ext/string'
 require 'erb'
+require 'json'
+require 'logger'
 require 'money'
 require 'rack/utils'
+require 'sequel'
 require 'spy_glass/client'
 
 module SpyGlass
+  module Utils
+    DB = Sequel.connect(ENV.fetch('DATABASE_URL'))
+    DB.loggers << Logger.new(STDOUT)
+
+    def self.point_srid_transform(x, y, _from, _to = 4326)
+      geojson = DB.dataset.with_sql(<<-SQL, x, y, _from, _to).get
+        SELECT ST_AsGeoJSON(ST_Transform(ST_SetSRID(ST_MakePoint(?::numeric, ?::numeric), ?), ?)) AS latlng
+      SQL
+
+      JSON.parse(geojson)['coordinates']
+    end
+  end
+
   Registry = []
   Salutations = [
     'Hi!',
