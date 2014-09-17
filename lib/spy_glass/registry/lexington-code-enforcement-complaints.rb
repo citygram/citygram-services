@@ -17,7 +17,7 @@ opts = {
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   features = collection['result']['records'].map do |item|
     title = <<-TITLE.oneline
-      The code enforcement case number #{item['CaseNo']} was updated to '#{item['Status']}' for #{item['Address']}"
+      A code complaint has been opened or updated near you at #{item['Address'].titlecase}. Its status is '#{item['Status']}' & its case number is '#{item['CaseNo']}'.
     TITLE
     {
       'id' => "#{item['CaseNo']}_#{item['Status']}",
