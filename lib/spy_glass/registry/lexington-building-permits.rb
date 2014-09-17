@@ -1,12 +1,12 @@
 require 'spy_glass/registry'
 
 opts = {
-  path: '/lexington-code-enforcement-complaints',
+  path: '/lexington-building-permits',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'http://104.131.23.252/api/action/datastore_search_sql?'+Rack::Utils.build_query({
     'sql' => <<-WHERE.oneline
-      SELECT * from "complaints-4"
-      WHERE "StatusDate" > (now() - '7 day'::interval)
+      SELECT * from "building-permits"
+      WHERE "Date" > (now() - '7 day'::interval)
       AND lat IS NOT NULL
       AND lng IS NOT NULL
       LIMIT 1000
@@ -17,10 +17,10 @@ opts = {
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   features = collection['result']['records'].map do |item|
     title = <<-TITLE.oneline
-      The code enforcement case number #{item['CaseNo']} was updated to '#{item['Status']}' for #{item['Address']}
+     A building permit application has been submitted near you at #{item['Address']}.titlecase. The permit is for #{item['PermitType']}.titlecase and its ID is #{item['ID']}.
     TITLE
     {
-      'id' => "#{item['CaseNo']}_#{item['Status']}",
+      'id' => item['ID'],
       'type' => 'Feature',
       'geometry' => {
         'type' => 'Point',
