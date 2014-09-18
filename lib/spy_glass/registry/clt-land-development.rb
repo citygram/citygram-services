@@ -13,6 +13,8 @@ ORDER BY "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."RECORDOPENDATE" DESC
 LIMIT 100
 SQL
 
+helper = Object.new.extend(ActionView::Helpers::TextHelper)
+
 opts = {
   path: '/clt-land-development',
   cache: SpyGlass::Cache::Memory.new(expires_in: 2400),
@@ -21,6 +23,18 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
   features = body['result']['records'].map do |record|
+    address = record['ADDRESS'].gsub(/,\ CHARLOTTE,\ NC\ \d*/, '').titlecase
+    description = helper.truncate(record['PROJECTDESCRIPTION'], length: 80)
+
+    # fix busted urls
+    url = record['URL'].gsub('%63', '?')
+
+    title = <<-TITLE.oneline
+      #{SpyGlass::Salutations.next} A Land Development plan for #{address} has been submitted.
+      The description is: #{description}.
+      Learn more: #{url}
+    TITLE
+
     lon, lat = SpyGlass::Utils.point_srid_transform(record['X_COORD'], record['Y_COORD'], 3359, 4326)
 
     {
@@ -30,10 +44,7 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
         'type' => 'Point',
         'coordinates' => [lon,lat]
       },
-      'properties' => record.merge(
-        'title' => record['PROJECTDESCRIPTION'],
-        'url' => record['URL']
-      )
+      'properties' => record.merge('title' => title)
     }
   end
 
