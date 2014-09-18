@@ -38,7 +38,7 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
     lon, lat = SpyGlass::Utils.point_srid_transform(record['X_COORD'], record['Y_COORD'], 3359, 4326)
 
     {
-      'id' => record['PROJECTNUMBER'],
+      'id' => record['_id'],
       'type' => 'Feature',
       'geometry' => {
         'type' => 'Point',
