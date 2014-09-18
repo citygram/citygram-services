@@ -17,7 +17,7 @@ opts = {
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   features = collection['result']['records'].map do |item|
     title = <<-TITLE.oneline
-     A building permit application has been submitted near you at #{item['Address']}.titlecase. The permit is for #{item['PermitType']}.titlecase and its ID is #{item['ID']}.
+     A building permit application has been submitted near you at #{item['Address'].titlecase}. The permit is for #{item['PermitType'].titlecase} and its ID is #{item['ID']}.
     TITLE
     {
       'id' => item['ID'],
