@@ -1,15 +1,17 @@
 require 'spy_glass/registry'
 
+resource_id = 'cfacd6c3-929c-4328-bdba-1f031d6b0d27'
+
 sql = <<-SQL.gsub(/(\s{2,}|\n)/, " ").strip
-SELECT "9f57ae4b-fc62-4ae3-895d-aece0e759b5c".*
-FROM "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"
-WHERE "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."X_COORD" IS NOT NULL
-AND "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."X_COORD" != '0'
-AND "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."Y_COORD" IS NOT NULL
-AND "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."Y_COORD" != '0'
-AND "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."PROJECTDESCRIPTION" IS NOT NULL
-AND "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."OWNERNAME" IS NOT NULL
-ORDER BY "9f57ae4b-fc62-4ae3-895d-aece0e759b5c"."RECORDOPENDATE" DESC
+SELECT "#{resource_id}".*
+FROM "#{resource_id}"
+WHERE "#{resource_id}"."X_COORD" IS NOT NULL
+AND "#{resource_id}"."X_COORD" NOT IN ('0', '')
+AND "#{resource_id}"."Y_COORD" IS NOT NULL
+AND "#{resource_id}"."Y_COORD" NOT IN ('0', '')
+AND "#{resource_id}"."ProjectDescription" IS NOT NULL
+AND "#{resource_id}"."URL" IS NOT NULL
+ORDER BY "#{resource_id}"."RecordOpenDate" DESC
 LIMIT 100
 SQL
 
@@ -21,18 +23,18 @@ opts = {
   source: 'http://www.civicdata.com/api/action/datastore_search_sql?'+Rack::Utils.build_query(sql: sql)
 }
 
+puts opts[:source]
+
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
   features = body['result']['records'].map do |record|
-    address = record['ADDRESS'].gsub(/,\ CHARLOTTE,\ NC\ \d*/, '').titlecase
-    description = helper.truncate(record['PROJECTDESCRIPTION'], length: 80)
-
-    # fix busted urls
-    url = record['URL'].gsub('%63', '?')
+    # require 'debugger';debugger
+    address = record['Address'].gsub(/,\ CHARLOTTE,\ NC\ \d*/, '').titlecase
+    description = helper.truncate(record['ProjectDescription'], length: 80)
 
     title = <<-TITLE.oneline
       #{SpyGlass::Salutations.next} A Land Development plan for #{address} has been submitted.
       The description is: #{description}.
-      Learn more: #{url}
+      Learn more: #{record['URL']}
     TITLE
 
     lon, lat = SpyGlass::Utils.point_srid_transform(record['X_COORD'], record['Y_COORD'], 3359, 4326)
