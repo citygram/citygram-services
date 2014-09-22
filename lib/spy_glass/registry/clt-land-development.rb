@@ -23,8 +23,6 @@ opts = {
   source: 'http://www.civicdata.com/api/action/datastore_search_sql?'+Rack::Utils.build_query(sql: sql)
 }
 
-puts opts[:source]
-
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
   features = body['result']['records'].map do |record|
     # require 'debugger';debugger

@@ -50,6 +50,7 @@ module SpyGlass
         @connection ||= Faraday.new(url: source) do |conn|
           conn.headers['Content-Type'] = content_type
           conn.response :caching, cache
+          conn.use :instrumentation, name: 'request.spyglass'
           build_connection(conn)
           conn.adapter Faraday.default_adapter
         end
