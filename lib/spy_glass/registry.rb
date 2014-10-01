@@ -7,6 +7,7 @@ require 'json'
 require 'logger'
 require 'money'
 require 'rack/utils'
+require 'securerandom'
 require 'sequel'
 require 'spy_glass/client'
 
