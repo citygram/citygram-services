@@ -21,7 +21,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
     time = Time.iso8601(item['created_date']).in_time_zone(time_zone)
     title =  <<-TITLE.oneline
- A new 311 case has been opened at #{item['incident_address']} in #{item['city']}.
+      A new 311 case has been opened at #{item['incident_address']} in #{item['city']}.
       The complaint type is #{item['complaint_type'].downcase} - #{item['descriptor']} and the assigned agency is #{item['agency']}
     TITLE
 
