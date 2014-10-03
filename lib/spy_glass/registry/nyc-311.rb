@@ -25,18 +25,18 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     title =
       case item['address_type']
       when 'ADDRESS'
-        "A new 311 case has been opened at #{item['incident_address']} in #{city}."
+        "#{Time.iso8601(item['created_date']).strftime("%m/%d  %I:%M %p")} - A new 311 case has been opened at #{item['incident_address'].titleize} in #{city.capitalize}."
       when 'INTERSECTION'
         intersection_street_1 = item['intersection_street_1']
         intersection_street_2 = item['intersection_street_2']
-        "A new 311 case has been opened at the intersection of #{intersection_street_1} and #{intersection_street_2} in #{city}."
+        "#{Time.iso8601(item['created_date']).strftime("%m/%d  %I:%M %p")} - A new 311 case has been opened at the intersection of #{intersection_street_1.titleize} and #{intersection_street_2.titleize} in #{city.capitalize}."
       when 'BLOCKFACE'
         cross_street_1 = item['cross_street_1']
         cross_street_2 = item['cross_street_2']
         street = item['street_name']
-        "A new 311 case has been opened on #{street}, between #{cross_street_1} and #{cross_street_2} in #{city}."
+        "#{Time.iso8601(item['created_date']).strftime("%m/%d  %I:%M %p")} - A new 311 case has been opened on #{street.titleize}, between #{cross_street_1.titleize} and #{cross_street_2.titleize} in #{city.capitalize}."
       else
-        "A new 311 case has been opened on #{item['street_name']} in #{city}."
+        "#{Time.iso8601(item['created_date']).strftime("%m/%d  %I:%M %p")} - A new 311 case has been opened on #{item['street_name']} in #{city}."
       end
 
     title << " The complaint type is #{item['complaint_type'].downcase} - #{item['descriptor']} and the assigned agency is #{item['agency']}"
