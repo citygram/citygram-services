@@ -15,13 +15,14 @@ SpyGlass::Registry << SpyGlass::Client::Meck.new(opts) do |collection|
     next unless x_coord != 0 || y_coord != 0
 
     title = <<-TITLE.oneline
-      A Certificate of Occupancy has been 
+      A Certificate of Occupancy has been issued for #{record['Address'].gsub(/\s{2,}/, ' ')}.
+      The related parcel is ##{record['parcelNumber']} and the Dept. of Commerce code is "#{record['USDCCode']}".
     TITLE
 
     lon, lat = SpyGlass::Utils.point_srid_transform(x_coord, y_coord, 3359, 4326)
 
     {
-      # 'id' => nil,
+      'id' => record['recordID'],
       'type' => 'Feature',
       'geometry' => {
         'type' => 'Point',
