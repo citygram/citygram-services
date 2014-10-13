@@ -3,9 +3,9 @@ require 'spy_glass/registry'
 opts = {
   path: '/lexington-code-enforcement-complaints',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
-  source: 'http://104.131.23.252/api/action/datastore_search_sql?'+Rack::Utils.build_query({
+  source: 'http://www.civicdata.com/api/action/datastore_search_sql?'+Rack::Utils.build_query({
     'sql' => <<-WHERE.oneline
-      SELECT * from "complaints-4"
+      SELECT * from "ad346da7-ce88-4c77-a0e1-10ff09bb0622"
       WHERE "StatusDate" > (now() - '7 day'::interval)
       AND lat IS NOT NULL
       AND lng IS NOT NULL
