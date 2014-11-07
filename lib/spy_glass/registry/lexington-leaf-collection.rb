@@ -10,24 +10,20 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   esri_formatted = JSON.parse(collection)
 
   features = esri_formatted['features'].map do |item|
-    properties = feature['attributes']
-    title = "Hello! Leaf collection status in your area is now '#{properties['Status']}'."
-    title += " Collection dates are #{properties['Dates']}" if properties['Dates']
+    title = "Hello! Leaf collection status in your area is now '#{attributes['Status']}'."
+    title += " Collection dates are #{attributes['Dates']}" if attributes['Dates']
     {
-      type: "Feature",
-      id: properties['OBJECTID'],
-      properties: {
-        title: title
+      'type' => 'Feature',
+      'id' => attributes['OBJECTID'],
+      'properties' => {
+        'title' => item.merge('title' => title)
       },
-      geometry: {
-        type: "Polygon",
-        coordinates: feature['geometry']['rings']
+      'geometry' => {
+        'type' => 'Polygon',
+        'coordinates' => feature['geometry']['rings']
       }
     }
   end    
 
-  {
-    type: "FeatureCollection",
-    features: features
-  }.to_json
+  { 'type' => 'FeatureCollection', 'features' => features }
 end
