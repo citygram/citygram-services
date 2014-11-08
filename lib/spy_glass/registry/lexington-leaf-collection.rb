@@ -8,7 +8,7 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   esri_formatted = JSON.parse(collection)
-
+  attributes = feature['attributes']
   features = esri_formatted['features'].map do |item|
     title = "Hello! Leaf collection status in your area is now '#{attributes['Status']}'."
     title += " Collection dates are #{attributes['Dates']}" if attributes['Dates']
