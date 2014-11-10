@@ -9,13 +9,14 @@ opts = {
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
   features = esri_formatted['features'].map do |feature|
     attributes = feature['attributes']
-    title = "Hello! Leaf collection status in your area is now '#{attributes['Status']}'."
-    title += " Collection dates are #{attributes['Dates']}" if attributes['Dates']
+    title = "Hello! Leaf collection status in your area is currently '#{attributes['Status']}'."
+    title += " Collection dates are scheduled for #{attributes['Dates']}." if attributes['Dates']
+    title += " Find out more at http://www.lexingtonky.gov/index.aspx?page=573"
     {
       'type' => 'Feature',
-      'id' => attributes['OBJECTID'],
+      'id' => "#{attributes['OBJECTID']}_#{attributes['Status']}",
       'properties' => {
-        'title' => feature.merge('title' => title)
+        'title' => title,
       },
       'geometry' => {
         'type' => 'Polygon',
