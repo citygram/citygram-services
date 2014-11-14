@@ -1,27 +1,42 @@
 require 'spy_glass/registry'
 
+json = JSON.parse(File.read('leaf-collection-zones.json'))
+zones = Hash[json['features'].map { |z| [z['properties']['Subzone'], z['geometry']] }]
+
+def title(status, dates)
+  link = 'lexingtonky.gov/index.aspx?page=573'
+  remember = 'Remember that only residential properties who receive city waste collection services are eligible for this service.'
+  more = "Find out more and confirm your eligibility at #{link}"
+  case status
+    when 'Completed'
+      "Hello! Leaf collection in your area is complete. For more information please visit #{link}"
+    when 'In Progress'
+      "Hello! Leaf collection is in progress in your area from #{dates}. #{remember} #{more}"
+    else
+      "Hello! Leaf collection in your area is currently scheduled for #{dates} but we'll let you know if these dates change. #{remember} #{more}"
+  end
+end
+
 opts = {
   path: '/lexington-leaf-collection',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
-  source: 'http://services1.arcgis.com/Mg7DLdfYcSWIaDnu/ArcGIS/rest/services/Leaf_Collection/FeatureServer/1/query?where=++objectid%3Dobjectid&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&distance=&units=esriSRUnit_Meter&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=4326&returnIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&resultOffset=0&resultRecordCount=&returnZ=false&returnM=false&f=pjson&token='
+  source: 'http://gis.lexingtonky.gov/lfucggis/rest/services/leafcollection/MapServer/1/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=*&returnGeometry=true&maxAllowableOffset=&geometryPrecision=&outSR=4326&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=true&returnM=true&gdbVersion=&returnDistinctValues=false&f=pjson'
 }
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
   features = esri_formatted['features'].map do |feature|
-    attributes = feature['attributes']
-    title = "Hello! Leaf collection status in your area is currently '#{attributes['Status']}'."
-    title += " Collection dates are scheduled for #{attributes['Dates']}." if attributes['Dates']
-    title += " Find out more at http://www.lexingtonky.gov/index.aspx?page=573"
+    object_id = feature['attributes']['gis.DL.LeafCollection.OBJECTID']
+    status = feature['attributes']['gis.DL.LeafZoneSchedule.Status']
+    dates = feature['attributes']['gis.DL.LeafZoneSchedule.Dates']
+    zone = feature['attributes']['gis.DL.LeafZoneSchedule.Zone']
+
     {
       'type' => 'Feature',
-      'id' => "#{attributes['OBJECTID']}_#{attributes['Status']}",
+      'id' => "#{object_id}_#{status}",
       'properties' => {
-        'title' => title,
+        'title' => title(status, dates)
       },
-      'geometry' => {
-        'type' => 'Polygon',
-        'coordinates' => feature['geometry']['rings']
-      }
+      'geometry' => zones.fetch(zone)
     }
   end
 
