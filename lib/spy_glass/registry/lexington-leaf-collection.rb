@@ -5,15 +5,17 @@ zones = Hash[json['features'].map { |z| [z['properties']['Subzone'], z['geometry
 
 def title(status, dates)
   link = 'lexingtonky.gov/index.aspx?page=573'
-  remember = 'Remember that only residential properties who receive city waste collection services are eligible for this service.'
-  more = "Find out more and confirm your eligibility at #{link}"
+  remember = 'Remember: only residential properties receiving city waste collection services are eligible for this service.'
+  more = "Find out more at #{link}"
   case status
-    when 'Completed'
-      "Hello! Leaf collection in your area is complete. For more information please visit #{link}"
     when 'In Progress'
       "Hello! Leaf collection is in progress in your area from #{dates}. #{remember} #{more}"
-    else
+    when 'Next'
+      "Hello! Leaf collection is coming soon to your area. It's currently scheduled for #{dates} but we'll let you know if these dates change. #{remember} #{more}"
+    when 'Pending'
       "Hello! Leaf collection in your area is currently scheduled for #{dates} but we'll let you know if these dates change. #{remember} #{more}"
+    when 'Completed'
+      "Hello! Leaf collection in your area is complete. For more information please visit #{link}"
   end
 end
 
@@ -27,7 +29,7 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
   features = esri_formatted['features'].map do |feature|
     object_id = feature['attributes']['gis.DL.LeafCollection.OBJECTID']
     status = feature['attributes']['gis.DL.LeafZoneSchedule.Status']
-    dates = feature['attributes']['gis.DL.LeafZoneSchedule.Dates']
+    dates = feature['attributes']['gis.DL.LeafZoneSchedule.Dates'].gsub(' - ', '-')
     zone = feature['attributes']['gis.DL.LeafZoneSchedule.Zone']
 
     {
