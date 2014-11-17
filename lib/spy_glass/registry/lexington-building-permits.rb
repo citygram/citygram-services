@@ -3,9 +3,9 @@ require 'spy_glass/registry'
 opts = {
   path: '/lexington-building-permits',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
-  source: 'http://104.131.23.252/api/action/datastore_search_sql?'+Rack::Utils.build_query({
+  source: 'http://www.civicdata.com/api/action/datastore_search_sql?'+Rack::Utils.build_query({
     'sql' => <<-WHERE.oneline
-      SELECT * from "building-permits"
+      SELECT * from "2691aff1-e555-48d3-9188-aebf1fa8323e"
       WHERE "Date" > (now() - '7 day'::interval)
       AND lat IS NOT NULL
       AND lng IS NOT NULL
