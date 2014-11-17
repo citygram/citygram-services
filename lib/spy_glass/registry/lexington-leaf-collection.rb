@@ -1,6 +1,6 @@
 require 'spy_glass/registry'
 
-json = JSON.parse(File.read('leaf-collection-zones.json'))
+json = JSON.parse(File.read('lib/spy_glass/registry/lexington-leaf-collection-zones.json'))
 zones = Hash[json['features'].map { |z| [z['properties']['Subzone'], z['geometry']] }]
 
 def title(status, dates)
