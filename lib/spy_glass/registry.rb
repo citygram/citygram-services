@@ -16,7 +16,6 @@ module SpyGlass
   Log = Logger.new(STDOUT)
   DB.loggers << Log
 
-
   class RequestLog < Struct.new(:logger)
     Dataset = SpyGlass::DB[:http_requests]
 
@@ -47,6 +46,8 @@ module SpyGlass
   end
 
   module Utils
+    extend ActionView::Helpers::TextHelper
+
     def self.point_srid_transform(x, y, _from, _to = 4326)
       geojson = SpyGlass::DB.dataset.with_sql(<<-SQL, x, y, _from, _to).get
         SELECT ST_AsGeoJSON(ST_Transform(ST_SetSRID(ST_MakePoint(?::numeric, ?::numeric), ?), ?)) AS latlng

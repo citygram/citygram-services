@@ -15,8 +15,6 @@ ORDER BY "#{resource_id}"."RecordOpenDate" DESC
 LIMIT 100
 SQL
 
-helper = Object.new.extend(ActionView::Helpers::TextHelper)
-
 opts = {
   path: '/clt-land-development',
   cache: SpyGlass::Cache::Memory.new(expires_in: 2400),
@@ -27,22 +25,22 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
   features = body['result']['records'].map do |record|
     # require 'debugger';debugger
     address = record['Address'].gsub(/,\ CHARLOTTE,\ NC\ \d*/, '').titlecase
-    description = helper.truncate(record['ProjectDescription'], length: 80)
+    description = SpyGlass::Utils.truncate(record['ProjectDescription'], length: 80)
 
-    title = <<-TITLE.oneline
+    title = <<-TITLE.oneline.gsub(/\.\.\.\./, '...')
       #{SpyGlass::Salutations.next} A Land Development plan for #{address} has been submitted.
       The description is: #{description}.
       Learn more: #{record['URL']}
     TITLE
 
-    lon, lat = SpyGlass::Utils.point_srid_transform(record['X_COORD'], record['Y_COORD'], 3359, 4326)
+    coordinates = SpyGlass::Utils.point_srid_transform(record['X_COORD'], record['Y_COORD'], 3359, 4326)
 
     {
       'id' => record['_id'],
       'type' => 'Feature',
       'geometry' => {
         'type' => 'Point',
-        'coordinates' => [lon,lat]
+        'coordinates' => coordinates
       },
       'properties' => record.merge('title' => title)
     }

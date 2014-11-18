@@ -2,6 +2,6 @@ require 'dedent'
 
 class String
   def oneline
-    dedent.gsub(/\n/, ' ')
+    dedent.gsub(/\s{2,}|\n/, ' ')
   end
 end

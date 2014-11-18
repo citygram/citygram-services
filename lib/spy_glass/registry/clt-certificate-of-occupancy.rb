@@ -19,14 +19,14 @@ SpyGlass::Registry << SpyGlass::Client::Meck.new(opts) do |collection|
       The related parcel is ##{record['parcelNumber']} and the Dept. of Commerce code is "#{record['USDCCode']}".
     TITLE
 
-    lon, lat = SpyGlass::Utils.point_srid_transform(x_coord, y_coord, 3359, 4326)
+    coordinates = SpyGlass::Utils.point_srid_transform(x_coord, y_coord, 3359, 4326)
 
     {
       'id' => record['recordID'],
       'type' => 'Feature',
       'geometry' => {
         'type' => 'Point',
-        'coordinates' => [lon,lat]
+        'coordinates' => coordinates
       },
       'properties' => record.merge('title' => title)
     }

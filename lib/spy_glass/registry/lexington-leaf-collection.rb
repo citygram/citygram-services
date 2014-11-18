@@ -3,7 +3,9 @@ require 'spy_glass/registry'
 json = JSON.parse(File.read('lib/spy_glass/registry/lexington-leaf-collection-zones.json'))
 zones = Hash[json['features'].map { |z| [z['properties']['Subzone'], z['geometry']] }]
 
-def title(status, dates)
+helper = Object.new
+
+def helper.title(status, dates)
   link = 'lexingtonky.gov/index.aspx?page=573'
   remember = 'Remember: only residential properties receiving city waste collection services are eligible for this service.'
   more = "Find out more at #{link}"
@@ -36,7 +38,7 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
       'type' => 'Feature',
       'id' => "#{object_id}_#{status}",
       'properties' => {
-        'title' => title(status, dates)
+        'title' => helper.title(status, dates)
       },
       'geometry' => zones.fetch(zone)
     }
