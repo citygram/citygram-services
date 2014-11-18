@@ -7,6 +7,7 @@ opts = {
     'sql' => <<-WHERE.oneline
       SELECT * from "2691aff1-e555-48d3-9188-aebf1fa8323e"
       WHERE "Date" > (now() - '7 day'::interval)
+      AND "Date" < (now() + '1 day'::interval)
       AND lat IS NOT NULL
       AND lng IS NOT NULL
       LIMIT 1000
@@ -16,8 +17,11 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   features = collection['result']['records'].map do |item|
+    link = "lfucg.github.io/cityview/details.html?type=permit&ID=#{item['_id']}"
     title = <<-TITLE.oneline
-     A building permit application has been submitted near you at #{item['Address'].titlecase}. The permit is for #{item['PermitType'].titlecase} and its ID is #{item['ID']}.
+      A building permit application has been submitted near you at #{item['Address'].titlecase}.
+      The permit is for #{item['PermitType'].titlecase}.
+      Find out more at #{link}
     TITLE
     {
       'id' => item['ID'],
