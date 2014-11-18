@@ -1,6 +1,6 @@
 require 'spy_glass/registry'
 
-resource_id = 'cfacd6c3-929c-4328-bdba-1f031d6b0d27'
+resource_id = 'e53f0901-62fb-443d-a22c-9a5afc851aef'
 
 sql = <<-SQL.gsub(/(\s{2,}|\n)/, " ").strip
 SELECT "#{resource_id}".*
