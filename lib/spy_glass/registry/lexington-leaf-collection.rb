@@ -4,7 +4,7 @@ json = JSON.parse(File.read('lib/spy_glass/registry/lexington-leaf-collection-zo
 zones = Hash[json['features'].map { |z| [z['properties']['Subzone'], z['geometry']] }]
 
 def title(status, dates)
-  link = 'lexingtonky.gov/index.aspx?page=573'
+  link = 'lexingtonky.gov/leaves'
   remember = 'Remember: only residential properties receiving city waste collection services are eligible for this service.'
   more = "Find out more at #{link}"
   case status
