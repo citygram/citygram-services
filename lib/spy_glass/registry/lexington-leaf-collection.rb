@@ -6,7 +6,7 @@ zones = Hash[json['features'].map { |z| [z['properties']['Subzone'], z['geometry
 helper = Object.new
 
 def helper.title(status, dates)
-  link = 'lexingtonky.gov/index.aspx?page=573'
+  link = 'lexingtonky.gov/leaves'
   remember = 'Remember: only residential properties receiving city waste collection services are eligible for this service.'
   more = "Find out more at #{link}"
   case status
