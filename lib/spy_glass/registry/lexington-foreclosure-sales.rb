@@ -16,8 +16,11 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   features = collection['result']['records'].map do |item|
+    date = DateTime.parse(item['SALEDT'])
     title = <<-TITLE.oneline
-      A foreclosed property was sold for #{Money.us_dollar(item['PRICE'].to_i * 100).format(no_cents: true)} at #{item['ADDRESS']}
+      A foreclosed property at #{ActiveSupport::Inflector.titleize(item['ADDRESS'])}
+      sold for #{Money.us_dollar(item['PRICE'].to_i * 100).format(no_cents: true)}
+      on #{date.strftime('%B')} #{ActiveSupport::Inflector.ordinalize(date.day)}
     TITLE
     {
       'id' => "#{item['SALEKEY']}",
