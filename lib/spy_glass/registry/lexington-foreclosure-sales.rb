@@ -5,7 +5,7 @@ opts = {
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'http://www.civicdata.com/api/action/datastore_search_sql?'+Rack::Utils.build_query({
     'sql' => <<-WHERE.oneline
-      SELECT * from "197e1770-3877-4668-8858-1bb1c54754e9"
+      SELECT * from "0e2f75bd-7cfd-4e3b-8770-cb7119c623ed"
       WHERE "SALEDT" > (now() - '30 day'::interval)
       AND lat IS NOT NULL
       AND lng IS NOT NULL
