@@ -17,7 +17,7 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   features = collection['result']['records'].map do |item|
-    link = "lfucg.github.io/statuslex/details.html?type=permit&ID=#{item['_id']}"
+    link = "http://lfucg.github.io/statuslex/details.html?type=permit&ID=#{item['_id']}"
     title = <<-TITLE.oneline
       A building permit application has been submitted near you at #{item['Address'].titlecase}.
       The permit is for #{item['PermitType'].titlecase}.

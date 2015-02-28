@@ -16,7 +16,7 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   features = collection['result']['records'].map do |item|
-    link = "lfucg.github.io/statuslex/details.html?type=code&ID=#{item['_id']}"
+    link = "http://lfucg.github.io/statuslex/details.html?type=code&ID=#{item['_id']}"
     title = <<-TITLE.oneline
       A code complaint has been opened or updated near you at #{item['Address'].titlecase}.
       Its status is '#{item['Status']}'. Find out more at #{link}
