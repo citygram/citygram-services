@@ -13,7 +13,7 @@ But here's a specific example of the information flow:
 
 [CKAN code enforcement](http://www.civicdata.com/dataset/lexington-code-enforcement-complaints)  -> [Citygram connector](https://github.com/citygram/citygram-services/blob/master/lib/spy_glass/registry/lexington-code-enforcement-complaints.rb) -> [Citygram](https://www.citygram.org/lexington)
 
-This particular Citygram connector pulls the [last seven days worth](https://github.com/citygram/citygram-services/blob/master/lib/spy_glass/registry/lexington-code-enforcement-complaints.rb#L7) of code complaints and formats them as geojson that Citygram polls many times a day.
+This particular Citygram connector pulls the [last seven days worth](https://github.com/citygram/citygram-services/blob/master/lib/spy_glass/registry/lexington-code-enforcement-complaints.rb#L7) of code complaints and [formats them as geojson](https://citygram-services.herokuapp.com/) that Citygram polls many times a day.
 
 It creates a unique key that [is a composite](https://github.com/citygram/citygram-services/blob/master/lib/spy_glass/registry/lexington-code-enforcement-complaints.rb#L25) of the CaseNo and Status columns. When this key changes, Citygram will create a new event that will be sent to subscribers. Since the key is a composite, an event is created whenever a status changes for a given case. 
 
