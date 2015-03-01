@@ -2,9 +2,6 @@
 
 __Spyglass__  is a [Code for America](https://github.com/codeforamerica) project by the [Charlotte Team](http://team-charlotte.tumblr.com/) for the [2014 fellowship](http://www.codeforamerica.org/geeks/our-geeks/2014-fellows/).
 
-### Why are we doing this?
-
-
 ### What does this do now?
 
 This is a registry of micro ETL endpoints. What does that even mean? Good question. Citygram has good [overview documentation](https://github.com/codeforamerica/citygram/wiki/Getting-Started-with-Citygram). 
@@ -17,6 +14,14 @@ This particular Citygram connector pulls the [last seven days worth](https://git
 
 It creates a unique key that [is a composite](https://github.com/BetaNYC/citygram-services-nyc/blob/nyc-updates/lib/spy_glass/registry/nyc-311.rb#L45) of the CaseNo and Status columns. When this key changes, Citygram will create a new event that will be sent to subscribers. Since the key is a composite, an event is created whenever a status changes for a given case. 
 
+### Why are we doing this?
+
+TODO
+
+### What will this do in the future?
+
+TODO
+
 ### How to contribute
 
 - You can file an [issue](https://github.com/BetaNYC/citygram-services-nyc/issues/new).
@@ -25,10 +30,6 @@ It creates a unique key that [is a composite](https://github.com/BetaNYC/citygra
 ### Who is this made by?
 
 See the [contributors list](https://github.com/BetaNYC/citygram-services-nyc/graphs/contributors).
-
-### What will this do in the future?
-
-TODO
 
 ### Technical Overview
 
