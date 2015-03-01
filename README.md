@@ -40,8 +40,8 @@ TODO
 * [Install Ruby](https://github.com/codeforamerica/howto/blob/master/Ruby.md)
 
 ```
-git clone https://github.com/citygram/citygram-services.git
-cd citygram-services
+git clone https://github.com/BetaNYC/citygram-services-nyc.git
+cd citygram-services-nyc
 cp .env.sample .env
 gem install bundler
 bundle install
