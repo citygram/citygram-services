@@ -11,19 +11,28 @@ This is a registry of micro ETL endpoints. What does that even mean? Good questi
 
 But here's a specific example of the information flow:
 
-[CKAN code enforcement](http://www.civicdata.com/dataset/lexington-code-enforcement-complaints)  -> [Citygram connector](https://github.com/citygram/citygram-services/blob/master/lib/spy_glass/registry/lexington-code-enforcement-complaints.rb) -> [Citygram](https://www.citygram.org/lexington)
+[CKAN code enforcement](https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&es_th=1&ie=UTF-8#q=311%20open%20data%20socrata&es_th=1)  -> [Citygram connector](https://github.com/BetaNYC/citygram-services-nyc/blob/nyc-updates/lib/spy_glass/registry/nyc-311.rb) -> [Citygram](https://www.citygram.nyc/)
 
 This particular Citygram connector pulls the [last seven days worth](https://github.com/citygram/citygram-services/blob/master/lib/spy_glass/registry/lexington-code-enforcement-complaints.rb#L7) of code complaints and [formats them as geojson](https://citygram-services.herokuapp.com/) that Citygram polls many times a day.
 
-It creates a unique key that [is a composite](https://github.com/citygram/citygram-services/blob/master/lib/spy_glass/registry/lexington-code-enforcement-complaints.rb#L25) of the CaseNo and Status columns. When this key changes, Citygram will create a new event that will be sent to subscribers. Since the key is a composite, an event is created whenever a status changes for a given case. 
+It creates a unique key that [is a composite](https://github.com/BetaNYC/citygram-services-nyc/blob/nyc-updates/lib/spy_glass/registry/nyc-311.rb#L45) of the CaseNo and Status columns. When this key changes, Citygram will create a new event that will be sent to subscribers. Since the key is a composite, an event is created whenever a status changes for a given case. 
+
+### How to contribute
+
+- You can file an [issue](https://github.com/BetaNYC/citygram-services-nyc/issues/new).
+- Join in the conversation at [talk.beta.nyc/citygram](https://talk.beta.nyc/c/working-groups/citygram).
+
+### Who is this made by?
+
+See the [contributors list](https://github.com/BetaNYC/citygram-services-nyc/graphs/contributors).
 
 ### What will this do in the future?
 
 TODO
 
-### Who is this made by?
-- [Danny Whalen](https://github.com/invisiblefunnel)
-- [Erik Schwartz](https://github.com/eeeschwartz)
+### Technical Overview
+
+TODO
 
 ### Setup
 
@@ -37,3 +46,4 @@ gem install bundler
 bundle install
 bundle exec rackup
 ```
+You can now see your site at [http://localhost:9292/](http://localhost:9292/)
