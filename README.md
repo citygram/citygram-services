@@ -8,9 +8,9 @@ This is a registry of micro ETL endpoints. What does that even mean? Good questi
 
 But here's a specific example of the information flow:
 
-[CKAN code enforcement](https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&es_th=1&ie=UTF-8#q=311%20open%20data%20socrata&es_th=1)  -> [Citygram connector](https://github.com/BetaNYC/citygram-services-nyc/blob/nyc-updates/lib/spy_glass/registry/nyc-311.rb) -> [Citygram](https://www.citygram.nyc/)
+[CKAN code enforcement](https://nycopendata.socrata.com/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9)  -> [Citygram connector](https://github.com/BetaNYC/citygram-services-nyc/blob/nyc-updates/lib/spy_glass/registry/nyc-311.rb) -> [Citygram](https://www.citygram.nyc/)
 
-This particular Citygram connector pulls the [last seven days worth](https://github.com/citygram/citygram-services/blob/master/lib/spy_glass/registry/lexington-code-enforcement-complaints.rb#L7) of code complaints and [formats them as geojson](https://citygram-services.herokuapp.com/) that Citygram polls many times a day.
+This particular Citygram connector pulls the [last seven days worth](https://github.com/BetaNYC/citygram-services-nyc/blob/master/lib/spy_glass/registry/nyc-311.rb#L8) of code complaints and [formats them as geojson](https://citygram-services-nyc.herokuapp.com/) that Citygram polls many times a day.
 
 It creates a unique key that [is a composite](https://github.com/BetaNYC/citygram-services-nyc/blob/nyc-updates/lib/spy_glass/registry/nyc-311.rb#L45) of the CaseNo and Status columns. When this key changes, Citygram will create a new event that will be sent to subscribers. Since the key is a composite, an event is created whenever a status changes for a given case. 
 
