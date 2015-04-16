@@ -1,0 +1,16 @@
+{
+        "status": "In Development",
+        "thumbnailUrl": "https://avatars3.githubusercontent.com/u/7969112?v=3&s=400",
+        "bornAt": "BetaNYC Hacknights",
+        "geography": "NYC",
+        "politicalEntity":"",
+        "type":"API",
+        "needs": [
+                {"need": "Data Scientist"},
+                {"need": "Ruby Dev"}
+        ],
+        "categories": [
+                {"category": "Community"},
+                {"category": "Notification"}
+        ]
+}
