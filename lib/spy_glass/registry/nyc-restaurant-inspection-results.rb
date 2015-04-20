@@ -37,7 +37,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
       response = JSON.parse(open(geoclient_request).read)
       latitude = response["address"]["latitude"]
       longitude = response["address"]["longitude"]
-      geocode_cache.write(item['camis'], [latitude, longitude])
+      geocode_cache.write(item['camis'], [longitude, latitude])
     end
 
     coords = geocode_cache.read(item['camis'])
