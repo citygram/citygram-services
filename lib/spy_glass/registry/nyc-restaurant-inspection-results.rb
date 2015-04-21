@@ -23,7 +23,9 @@ geocode_cache = ActiveSupport::Cache::MemoryStore.new
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
 
-  features = collection.map do |item|
+  features = Array.new
+
+  collection.map do |item|
     time = Time.iso8601(item['inspection_date']).in_time_zone(time_zone)
     boro = item['boro']
 
@@ -61,18 +63,20 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     else
       "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}."
     end
-    {
-      'id' => item['camis'],
-      'type' => 'Feature',
-      'geometry' => {
-        'type' => 'Point',
-        'coordinates' => [
-          coords[0],
-          coords[1]
-        ]
-      },
-      'properties' => item.merge('title' => title)
-    } 
+    if coords[0] != nil
+      features << {
+        'id' => item['camis'],
+        'type' => 'Feature',
+        'geometry' => {
+          'type' => 'Point',
+          'coordinates' => [
+            coords[0],
+            coords[1]
+          ]
+        },
+        'properties' => item.merge('title' => title)
+      }
+    end
   end
   {'type' => 'FeatureCollection', 'features' => features}
 end
