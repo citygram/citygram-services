@@ -11,7 +11,9 @@ opts = {
     '$order' => 'inspection_date DESC',
     '$where' => <<-WHERE.oneline
       inspection_date >= '#{7.days.ago.iso8601}' AND
+      building IS NOT NULL AND
       street IS NOT NULL AND
+      boro IS NOT NULL AND
       camis IS NOT NULL
     WHERE
 		})
