@@ -10,12 +10,17 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
   features = esri_formatted['features'].map do |feature|
     attributes = feature['attributes']
     unique_id = attributes['OBJECTID']
+    next if feature['geometry'].nil?
     coordinates = feature['geometry']['rings']
+    unique_title = attributes['AppNum'] + ': ' + attributes['ProjAddr']
 
     {
       'type' => 'Feature',
       'id' => unique_id,
-      'properties' => attributes.merge('title' => 'THE IMPORTANT TITLE YO'),
+      'properties' => attributes.merge(
+        'title' => unique_title,
+        'url' => 'http://charmeck.org/city/charlotte/planning/HistoricDistricts/Pages/ByDistrict.aspx'
+      ),
       'geometry' => { 'type' => 'Polygon', 'coordinates' => coordinates }
     }
   end
