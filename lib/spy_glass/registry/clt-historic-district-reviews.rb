@@ -12,7 +12,11 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
     unique_id = attributes['OBJECTID']
     next if feature['geometry'].nil?
     coordinates = feature['geometry']['rings']
-    unique_title = attributes['AppNum'] + ': ' + attributes['ProjAddr']
+    project_description = attributes['ProjDesc'].strip
+    project_address = attributes['ProjAddr']
+    unique_title = 'New Request for ' +
+      project_description + ' at ' +
+      project_address + '. For more, call (704) 336-2205 or visit http://j.mp/clt-chd-reviews'
 
     {
       'type' => 'Feature',
