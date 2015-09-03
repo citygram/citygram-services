@@ -4,27 +4,26 @@ require 'open-uri'
 time_zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
 
 opts = {
-	path: '/nyc-restaurant-inspection-results',
-	cache: SpyGlass::Cache::Memory.new(expires_in: 300),
-	source: 'http://data.cityofnewyork.us/resource/xx67-kt59.json?'+Rack::Utils.build_query({
-		'$limit' => 1000,
+  path: '/nyc-restaurant-inspection-results',
+  cache: SpyGlass::Cache::Memory.new(expires_in: 300),
+  source: 'http://data.cityofnewyork.us/resource/xx67-kt59.json?'+Rack::Utils.build_query({
+    '$limit' => 1000,
     '$order' => 'inspection_date DESC',
     '$where' => <<-WHERE.oneline
-      inspection_date >= '#{7.days.ago.iso8601}' AND
-      building IS NOT NULL AND
-      street IS NOT NULL AND
-      boro IS NOT NULL AND
-      camis IS NOT NULL
+        inspection_date >= '#{7.days.ago.iso8601}' AND
+        building IS NOT NULL AND
+        street IS NOT NULL AND
+        boro IS NOT NULL AND
+          camis IS NOT NULL
     WHERE
-		})
+  })
 }
 
 geocode_cache = ActiveSupport::Cache::MemoryStore.new
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
-
   features = Array.new
-  
+
   collection.map do |item|
     time = Time.iso8601(item['inspection_date']).in_time_zone(time_zone)
     boro = item['boro']
@@ -35,7 +34,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
       'borough' => item['boro'],
       'app_id' => ENV['GEOCLIENT_APP_ID'],
       'app_key' => ENV['GEOCLIENT_APP_KEY']
-      })
+    })
 
     if geocode_cache.read(item['camis']) == nil
       response = JSON.parse(open(geoclient_request).read)
@@ -46,24 +45,24 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
 
     coords = geocode_cache.read(item['camis'])
 
-    title = 
-    case item['action']
-    when "No violations were recorded at the time of this inspection."
-      if item["grade"]
-        "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}. Inspection type was #{item['inspection_type']}.  #{item['action']}.Restaurant received the following grade: #{item['grade']}."
+    title =
+      case item['action']
+      when "No violations were recorded at the time of this inspection."
+        if item["grade"]
+          "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}. Inspection type was #{item['inspection_type']}.  #{item['action']}.Restaurant received the following grade: #{item['grade']}."
+        else
+          "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}. Inspection type was #{item['inspection_type']}. #{item['action']}"
+        end
+      when "Violations were cited in the following area(s)."
+        if item["grade"]
+          "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}. Inspection type was #{item['inspection_type']}.  The following violation was cited: #{item['violation_description']}  Restaurant received the following grade: #{item['grade']}."
+        else
+          "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}. Inspection type was #{item['inspection_type']}. The following violation was cited: #{item['violation_description']}"
+        end
       else
-        "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}. Inspection type was #{item['inspection_type']}. #{item['action']}"
+        "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}."
       end
-    when "Violations were cited in the following area(s)."
-      if item["grade"]
-        "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}. Inspection type was #{item['inspection_type']}.  The following violation was cited: #{item['violation_description']}  Restaurant received the following grade: #{item['grade']}."
-      else
-        "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}. Inspection type was #{item['inspection_type']}. The following violation was cited: #{item['violation_description']}"
-      end
-    else
-      "#{Time.iso8601(item['inspection_date']).strftime("%m/%d/%y")} - A restaurant inspection occurred at #{item['dba'].titleize}."
-    end
-    
+
     if coords[0] != nil
       features << {
         'id' => item['camis'],
@@ -78,7 +77,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
         'properties' => item.merge('title' => title)
       }
     end
-    
+
   end
   {'type' => 'FeatureCollection', 'features' => features}
 end
