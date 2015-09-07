@@ -29,5 +29,5 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
     }
   end
 
-  { 'type' => 'FeatureCollection', 'features' => features }
+  { 'type' => 'FeatureCollection', 'features' => features.reject{ |f| f.nil? } }
 end
