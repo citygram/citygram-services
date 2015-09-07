@@ -10,12 +10,21 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
   features = esri_formatted['features'].map do |feature|
     attributes = feature['attributes']
     unique_id = attributes['OBJECTID']
+    next if feature['geometry'].nil?
     coordinates = feature['geometry']['rings']
+    project_description = attributes['ProjDesc'].strip
+    project_address = attributes['ProjAddr']
+    unique_title = 'New Request for ' +
+      project_description + ' at ' +
+      project_address + '. For more, call (704) 336-2205 or visit http://j.mp/clt-chd-reviews'
 
     {
       'type' => 'Feature',
       'id' => unique_id,
-      'properties' => attributes.merge('title' => 'THE IMPORTANT TITLE YO'),
+      'properties' => attributes.merge(
+        'title' => unique_title,
+        'url' => 'http://charmeck.org/city/charlotte/planning/HistoricDistricts/Pages/ByDistrict.aspx'
+      ),
       'geometry' => { 'type' => 'Polygon', 'coordinates' => coordinates }
     }
   end
