@@ -1,8 +1,5 @@
 require 'spy_glass/registry'
 
-json = JSON.parse(File.read('lib/spy_glass/registry/lexington-leaf-collection-zones.json'))
-zones = Hash[json['features'].map { |z| [z['properties']['Subzone'], z['geometry']] }]
-
 helper = Object.new
 
 def helper.title(status, dates)
@@ -40,7 +37,10 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
       'properties' => {
         'title' => helper.title(status, dates)
       },
-      'geometry' => zones.fetch(zone)
+      'geometry' => {
+        type: 'Polygon',
+        coordinates: feature['geometry']['rings']
+      }
     }
   end
 
