@@ -29,11 +29,12 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
     object_id = feature['attributes']['gis.DL.LeafCollection.OBJECTID']
     status = feature['attributes']['gis.DL.LeafZoneSchedule.Status']
     dates = feature['attributes']['gis.DL.LeafZoneSchedule.Dates'].gsub(' - ', '-')
-    zone = feature['attributes']['gis.DL.LeafZoneSchedule.Zone']
+    # necessary if any of the statuses from this year are the same as their last status from 2014
+    collection_season = '2015'
 
     {
       'type' => 'Feature',
-      'id' => "#{object_id}_#{status}",
+      'id' => "#{collection_season}_#{object_id}_#{status}",
       'properties' => {
         'title' => helper.title(status, dates)
       },
