@@ -42,7 +42,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     title << " The complaint type is #{item['sr_type_desc'].downcase} and the assigned agency is #{item['sr_department_desc']}."
 
     {
-      'id' => item['unique_key'],
+      'id' => item['sr_number'],
       'type' => 'Feature',
       'geometry' => {
         'type' => 'Point',
