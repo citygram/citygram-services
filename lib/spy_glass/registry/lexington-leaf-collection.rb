@@ -47,3 +47,30 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
 
   { 'type' => 'FeatureCollection', 'features' => features }
 end
+
+opts[:path] = '/lexington-leaf-collection-citygram-events-format'
+
+SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
+  features = esri_formatted['features'].map do |feature|
+    object_id = feature['attributes']['gis.DL.LeafCollection.OBJECTID']
+    status = feature['attributes']['gis.DL.LeafZoneSchedule.Status']
+    dates = feature['attributes']['gis.DL.LeafZoneSchedule.Dates'].gsub(' - ', '-')
+    # necessary if any of the statuses from this year are the same as their last status from 2014
+    collection_season = '2015'
+
+    {
+      'type' => 'Feature',
+      'feature_id' => "#{collection_season}_#{object_id}_#{status}",
+      'title' => helper.title(status, dates),
+      'properties' => {
+        'title' => helper.title(status, dates)
+      },
+      'geom' => JSON.generate({
+        type: 'Polygon',
+        coordinates: feature['geometry']['rings']
+      })
+    }
+  end
+
+  features
+end
