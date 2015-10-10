@@ -1,39 +1,38 @@
-require 'faraday'
-require 'sinatra'
-require 'json'
+require 'spy_glass/registry'
 
-get '/tulsa-fire-dispatch' do
-  
-  url = URI('https://www.cityoftulsa.org/cot/opendata/tfd_dispatch.jsn')
-  
-  connection = Faraday.new(url: url.to_s)
+opts = {
+  path: '/tulsa-fire-dispatch',
+  cache: SpyGlass::Cache::Memory.new(expires_in: 2400),
+  source: 'https://www.cityoftulsa.org/cot/opendata/tfd_dispatch.jsn'
+}
 
-  response = connection.get
 
-  collection = JSON.parse(response.body)
-
-  features = collection['Incidents']['Incident'].map do |record|
-    
-    title = <<-TITLE 
-      The Tulsa Fire Department has responded to a #{record['Problem']} 
-      at #{record['Address']}.
+SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
+  features = collection['Incidents']['Incident'].map do |item|
+    title = <<-TITLE.oneline
+      The Tulsa Fire Department responded to 
+      a #{item['Problem']} 
+      reported at #{item['Address']} 
+      on #{item['ResponseDate']}.
       See all the dispatches near you at https://www.citygram.org/tulsa
     TITLE
     {
-      'id' => record['IncidentNumber'],
+      'id' => "#{item['IncidentNumber']}",
       'type' => 'Feature',
-      'title' => title,
       'geometry' => {
         'type' => 'Point',
         'coordinates' => [
-          record['Longitude'].to_f,
-          record['Latitude'].to_f
+          item['Latitude'].to_f,
+          item['Longitude'].to_f
         ]
-      }
+      },
+      'properties' => item.merge('title' => title)
     }
   end
-
-  content_type :json
-  JSON.pretty_generate('type' => 'FeatureCollection', 'features' => features)
+  
+  {'type' => 'FeatureCollection', 'features' => features}
 end
+
+
+
 
