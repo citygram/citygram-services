@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/BetaNYC/citygram-services-nyc.png?label=ready&title=Ready)](https://waffle.io/BetaNYC/citygram-services-nyc)
 # spy-glass (aka Citygram connector)
 
 __Spyglass__  is a [Code for America](https://github.com/codeforamerica) project by the [Charlotte Team](http://team-charlotte.tumblr.com/) for the [2014 fellowship](http://www.codeforamerica.org/geeks/our-geeks/2014-fellows/).
