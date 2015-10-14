@@ -22,8 +22,8 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
       'geometry' => {
         'type' => 'Point',
         'coordinates' => [
-          item['Latitude'].to_f,
-          item['Longitude'].to_f
+          item['Longitude'].to_f,
+          item['Latitude'].to_f          
         ]
       },
       'properties' => item.merge('title' => title)
