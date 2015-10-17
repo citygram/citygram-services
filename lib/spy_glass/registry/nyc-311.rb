@@ -33,7 +33,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
       when 'BLOCKFACE'
         "#{time} - A new 311 case has been opened on #{item['street_name'].titleize}, between #{item['cross_street_2'].titleize} and #{item['cross_street_1'].titleize} in #{city}."
       else
-        "#{time} - A new 311 case has been opened on #{item['street_name'].titleize} in #{city}."
+        "#{time} - A new 311 case has been opened on #{item['street_name']} in #{city}."
       end
     title << " The complaint type is #{item['complaint_type'].downcase} - #{item['descriptor']} and the assigned agency is #{item['agency']}."
 
