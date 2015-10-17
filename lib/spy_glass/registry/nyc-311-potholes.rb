@@ -1,21 +1,23 @@
 require 'spy_glass/registry'
 
-time_zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
+time_zone = ActiveSupport::TimeZone['Eastern Time (US & Canada)']
+
+query = {
+  '$limit' => 1000,
+  '$order' => 'created_date DESC',
+  '$where' => <<-WHERE.oneline
+    created_date >= '#{7.days.ago.iso8601}' AND
+    longitude IS NOT NULL AND
+    latitude IS NOT NULL AND
+    descriptor = 'Pothole' AND
+    unique_key IS NOT NULL
+  WHERE
+}
 
 opts = {
   path: '/nyc-311-potholes',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
-  source: 'http://data.cityofnewyork.us/resource/erm2-nwe9.json?'+Rack::Utils.build_query({
-    '$limit' => 1000,
-    '$order' => 'created_date DESC',
-    '$where' => <<-WHERE.oneline
-      created_date >= '#{7.days.ago.iso8601}' AND
-      longitude IS NOT NULL AND
-      latitude IS NOT NULL AND
-      descriptor = 'Pothole' AND
-      unique_key IS NOT NULL
-    WHERE
-  })
+  source: 'http://data.cityofnewyork.us/resource/erm2-nwe9.json?'+ Rack::Utils.build_query(query)
 }
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
@@ -58,4 +60,3 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
 
   {'type' => 'FeatureCollection', 'features' => features}
 end
-
