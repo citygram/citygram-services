@@ -29,15 +29,14 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     title =
       case item['address_type']
       when 'ADDRESS'
-        "#{time} - A new 311 case has been opened at #{item['incident_address'].titleize} in #{city}."
+        "#{time} - Pothole reported at #{item['incident_address'].titleize} in #{city}."
       when 'INTERSECTION'
-        "#{time} - A new 311 case has been opened at the intersection of #{item['intersection_street_1'].titleize} and #{item['intersection_street_2'].titleize} in #{city}."
+        "#{time} - Pothole reported at the intersection of #{item['intersection_street_1'].titleize} and #{item['intersection_street_2'].titleize} in #{city}."
       when 'BLOCKFACE'
-        "#{time} - A new 311 case has been opened on #{item['street_name'].titleize}, between #{item['cross_street_2'].titleize} and #{item['cross_street_1'].titleize} in #{city}."
+        "#{time} - Pothole reported on #{item['street_name'].titleize}, between #{item['cross_street_2'].titleize} and #{item['cross_street_1'].titleize} in #{city}."
       else
-        "#{time} - A new 311 case has been opened on #{item['street_name']} in #{city}."
+        "#{time} - Pothole reported on #{item['street_name']} in #{city}."
       end
-    title << " The complaint type is #{item['complaint_type'].downcase} - #{item['descriptor']} and the assigned agency is #{item['agency']}."
 
     {
       'id' => item['unique_key'],
