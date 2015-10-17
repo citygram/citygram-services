@@ -27,14 +27,15 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     title =
       case item['address_type']
       when 'ADDRESS'
-        "#{time} - #{item['descriptor']} at #{item['incident_address'].titleize} in #{city}."
+        "#{time} | #{item['descriptor']} at #{item['incident_address'].titleize} in #{city}."
       when 'INTERSECTION'
-        "#{time} - #{item['descriptor']} at the intersection of #{item['intersection_street_1'].titleize} and #{item['intersection_street_2'].titleize} in #{city}."
+        "#{time} | #{item['descriptor']} at the intersection of #{item['intersection_street_1'].titleize} and #{item['intersection_street_2'].titleize} in #{city}."
       when 'BLOCKFACE'
-        "#{time} - #{item['descriptor']} on #{item['street_name'].titleize}, between #{item['cross_street_2'].titleize} and #{item['cross_street_1'].titleize} in #{city}."
+        "#{time} | #{item['descriptor']} on #{item['street_name'].titleize}, between #{item['cross_street_2'].titleize} and #{item['cross_street_1'].titleize} in #{city}."
       else
-        "#{time} - #{item['descriptor']} on #{item['street_name']} in #{city}."
+        "#{time} | #{item['descriptor']} on #{item['street_name']} in #{city}."
       end
+    title << " #{item['agency']}, #{item['complaint_type']}."
 
     {
       'id' => item['unique_key'],
