@@ -12,6 +12,7 @@ opts = {
       created_date >= '#{7.days.ago.iso8601}' AND
       longitude IS NOT NULL AND
       latitude IS NOT NULL AND
+      descriptor = 'Pothole' AND
       unique_key IS NOT NULL
     WHERE
   })
