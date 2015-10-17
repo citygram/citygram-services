@@ -13,7 +13,7 @@ query = {
 }
 
 opts = {
-  path: '/nyc-311',
+  path: '/nyc-311/',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'https://data.cityofnewyork.us/resource/erm2-nwe9.json?'+ Rack::Utils.build_query(query)
 }
