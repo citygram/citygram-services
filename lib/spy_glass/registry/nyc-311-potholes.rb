@@ -1,6 +1,6 @@
 require 'spy_glass/registry'
 
-descriptors = 'Pothole' # supports,comma,separated,string
+descriptor = 'Pothole'
 
 query = {
   '$limit' => 1000,
@@ -9,7 +9,7 @@ query = {
     created_date >= '#{7.days.ago.iso8601}' AND
     longitude IS NOT NULL AND
     latitude IS NOT NULL AND
-    descriptor IN ('#{descriptors}') AND
+    descriptor = '#{descriptor}' AND
     unique_key IS NOT NULL
   WHERE
 }
