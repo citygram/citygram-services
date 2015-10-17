@@ -1,6 +1,5 @@
 require 'spy_glass/registry'
 
-
 query = {
   '$limit' => 1000,
   '$order' => 'created_date DESC',
