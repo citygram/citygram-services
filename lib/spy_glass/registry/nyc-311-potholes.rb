@@ -1,6 +1,5 @@
 require 'spy_glass/registry'
 
-time_zone = ActiveSupport::TimeZone['Eastern Time (US & Canada)']
 descriptors = 'Pothole' # supports,comma,separated,string
 
 query = {
@@ -58,4 +57,3 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     'features' => features
   }
 end
-
