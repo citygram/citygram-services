@@ -1,6 +1,7 @@
 require 'spy_glass/registry'
 
 time_zone = ActiveSupport::TimeZone['Eastern Time (US & Canada)']
+descriptors = 'Pothole' # supports,comma,separated,string
 
 query = {
   '$limit' => 1000,
@@ -9,7 +10,7 @@ query = {
     created_date >= '#{7.days.ago.iso8601}' AND
     longitude IS NOT NULL AND
     latitude IS NOT NULL AND
-    descriptor = 'Pothole' AND
+    descriptor IN ('#{descriptors}') AND
     unique_key IS NOT NULL
   WHERE
 }
@@ -29,13 +30,13 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     title =
       case item['address_type']
       when 'ADDRESS'
-        "#{time} - Pothole at #{item['incident_address'].titleize} in #{city}."
+        "#{time} - #{item['descriptor']} at #{item['incident_address'].titleize} in #{city}."
       when 'INTERSECTION'
-        "#{time} - Pothole at the intersection of #{item['intersection_street_1'].titleize} and #{item['intersection_street_2'].titleize} in #{city}."
+        "#{time} - #{item['descriptor']} at the intersection of #{item['intersection_street_1'].titleize} and #{item['intersection_street_2'].titleize} in #{city}."
       when 'BLOCKFACE'
-        "#{time} - Pothole on #{item['street_name'].titleize}, between #{item['cross_street_2'].titleize} and #{item['cross_street_1'].titleize} in #{city}."
+        "#{time} - #{item['descriptor']} on #{item['street_name'].titleize}, between #{item['cross_street_2'].titleize} and #{item['cross_street_1'].titleize} in #{city}."
       else
-        "#{time} - Pothole on #{item['street_name']} in #{city}."
+        "#{time} - #{item['descriptor']} on #{item['street_name']} in #{city}."
       end
 
     {
@@ -57,3 +58,4 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     'features' => features
   }
 end
+
