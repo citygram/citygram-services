@@ -3,7 +3,7 @@ require 'spy_glass/registry'
 time_zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
 
 opts = {
-  path: '/nyc-311',
+  path: '/nyc-311-potholes',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'http://data.cityofnewyork.us/resource/erm2-nwe9.json?'+Rack::Utils.build_query({
     '$limit' => 1000,
