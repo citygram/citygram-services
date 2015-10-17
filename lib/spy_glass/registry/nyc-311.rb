@@ -13,7 +13,7 @@ query = {
 }
 
 opts = {
-  path: '/nyc-311',
+  path: '/nyc-311/',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'https://data.cityofnewyork.us/resource/erm2-nwe9.json?'+ Rack::Utils.build_query(query)
 }
@@ -29,9 +29,9 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
       when 'ADDRESS'
         "#{time} - A new 311 case has been opened at #{item['incident_address'].titleize} in #{city}."
       when 'INTERSECTION'
-        "#{time} - A new 311 case has been opened at the intersection of #{intersection_street_1 = item['intersection_street_1'].titleize} and #{intersection_street_2 = item['intersection_street_2'].titleize} in #{city}."
+        "#{time} - A new 311 case has been opened at the intersection of #{item['intersection_street_1'].titleize} and #{item['intersection_street_2'].titleize} in #{city}."
       when 'BLOCKFACE'
-        "#{time} - A new 311 case has been opened on #{street}, between #{cross_street_2 = item['cross_street_2'].titleize} and #{cross_street_1 = item['cross_street_1'].titleize} in #{city}."
+        "#{time} - A new 311 case has been opened on #{item['street_name'].titleize}, between #{item['cross_street_2'].titleize} and #{item['cross_street_1'].titleize} in #{city}."
       else
         "#{time} - A new 311 case has been opened on #{item['street_name'].titleize} in #{city}."
       end
