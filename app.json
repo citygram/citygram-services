@@ -1,0 +1,23 @@
+{
+  "name":"citygram-services-nyc",
+  "description":"",
+  "scripts":{},
+  "env":{
+    "GEOCLIENT_APP_ID":{
+      "required":true
+    },
+    "GEOCLIENT_APP_KEY":{
+      "required":true
+    },
+    "LANG":{
+      "required":true
+    },
+    "RACK_ENV":{
+      "required":true
+    },
+    "SOCRATA_APP_TOKEN":{
+      "required":true
+    }
+  },
+  "addons":[]
+}
