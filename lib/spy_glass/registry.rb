@@ -55,6 +55,10 @@ module SpyGlass
 
       JSON.parse(geojson)['coordinates']
     end
+
+    def self.last_week_floating_timestamp
+      7.days.ago.utc.iso8601.gsub(/Z$/,'')
+    end
   end
 
   Registry = []
@@ -82,4 +86,4 @@ ActiveSupport::Notifications.subscribe(
 )
 
 registry_dir = File.expand_path('../../spy_glass/registry/*.rb', __FILE__)
-Dir[registry_dir].each { |file| require file } 
+Dir[registry_dir].each { |file| require file }

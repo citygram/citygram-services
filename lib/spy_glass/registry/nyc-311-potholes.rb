@@ -1,12 +1,10 @@
 require 'spy_glass/registry'
 
-last_week_floating_timestamp = 7.days.ago.utc.iso8601.gsub(/Z$/,'')
-
 query = {
   '$limit' => 1000,
   '$order' => 'created_date DESC',
   '$where' => <<-WHERE.oneline
-    created_date >= '#{last_week_floating_timestamp}' AND
+    created_date >= '#{SpyGlass::Utils.last_week_floating_timestamp}' AND
     longitude IS NOT NULL AND
     latitude IS NOT NULL AND
     descriptor LIKE 'Pothole%' AND
