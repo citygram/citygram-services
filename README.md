@@ -5,7 +5,7 @@ __Spyglass__  is a [Code for America](https://github.com/codeforamerica) project
 
 ### What does this do now?
 
-This is a registry of micro ETL endpoints. What does that even mean? Good question. Citygram has good [overview documentation](https://github.com/codeforamerica/citygram/wiki/Getting-Started-with-Citygram). 
+This is a registry of micro [ETL](https://en.wikipedia.org/wiki/Extract,_transform,_load) endpoints. What does that even mean? Good question. Citygram has good [overview documentation](https://github.com/codeforamerica/citygram/wiki/Getting-Started-with-Citygram).
 
 But here's a specific example of the information flow:
 
