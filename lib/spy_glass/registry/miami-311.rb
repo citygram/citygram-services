@@ -23,22 +23,8 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
 
     city = item['city']
     title =
-      #case item['address_type']
-      #when 'ADDRESS'
-        "#{Time.iso8601(item['ticket_created_date_time']).strftime("%m/%d  %I:%M %p")} - A new 311 case has been opened at #{item['street_address'].titleize}."
-        #when 'INTERSECTION'
-        #intersection_street_1 = item['intersection_street_1']
-        #intersection_street_2 = item['intersection_street_2']
-        #"#{Time.iso8601(item['created_date']).strftime("%m/%d  %I:%M %p")} - A new 311 case has been opened at the intersection of #{intersection_street_1.titleize} and #{intersection_street_2.titleize} in #{city.capitalize}."
-        #when 'BLOCKFACE'
-        #cross_street_1 = item['cross_street_1']
-        #cross_street_2 = item['cross_street_2']
-        #street = item['street_name']
-        #"#{Time.iso8601(item['created_date']).strftime("%m/%d  %I:%M %p")} - A new 311 case has been opened on #{street.titleize}, between #{cross_street_1.titleize} and #{cross_street_2.titleize} in #{city.capitalize}."
-        #else
-        #"#{Time.iso8601(item['created_date']).strftime("%m/%d  %I:%M %p")} - A new 311 case has been opened on #{item['street_name']} in #{city}."
-        #end
-
+      "#{Time.iso8601(item['ticket_created_date_time']).strftime("%m/%d  %I:%M %p")} - A new 311 case has been opened at #{item['street_address'].titleize}."
+      
     title << " The complaint type is #{item['issue_type'].downcase} and the assigned agency is #{item['case_owner']}."
 
     {
