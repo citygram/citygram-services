@@ -12,6 +12,8 @@ opts = {
       ticket_created_date_time >= '#{7.days.ago.iso8601}' AND
       longitude IS NOT NULL AND
       latitude IS NOT NULL AND
+      street_address IS NOT NULL AND
+      issue_type IS NOT NULL AND
       ticket_id IS NOT NULL
     WHERE
   })
@@ -24,7 +26,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
     city = item['city']
     title =
       "#{Time.iso8601(item['ticket_created_date_time']).strftime("%m/%d  %I:%M %p")} - A new 311 case has been opened at #{item['street_address'].titleize}."
-      
+
     title << " The complaint type is #{item['issue_type'].downcase} and the assigned agency is #{item['case_owner']}."
 
     {
