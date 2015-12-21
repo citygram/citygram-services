@@ -26,7 +26,9 @@ describe('testPath()', function() {
 
   it("should test a path", function () {
     var firstPath = geojsonLint.findEndpoints()[0];
-    expect(geojsonLint.testPath(firstPath)).to.be.true
+    var results = geojsonLint.testPath(firstPath, function(geojsonhintResult, error, response) {
+      expect(geojsonhintResult).to.be.empty;
+    });
   });
 
 });

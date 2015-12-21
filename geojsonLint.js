@@ -7,20 +7,26 @@ var fs = require('fs');
 var request = require('request');
 
 var geojsonLint = {
-  all: function (path) {
-    return geojsonhint(path);
+  all: function (path, callback) {
+    var allResults = findEndpoints.map( function(path) {
+      return testPath(path, pathTester)
+    });
+    callback(allResults);
   },
 
-  testPath: function (path) {
-    var results = request('http://localhost:5000/'+path, function (error, response, body) {
+  testPath: function (path, callback) {
+    return request('http://localhost:5000/'+path, function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        debugger;
-        return geojsonhint(body);
+        callback(geojsonhint.hint(body), error, response);
       } else {
-        return false
+        callback(body, error, response);
       }
     });
-    return results;
+  },
+
+  pathTester: function(geojsonhintResult, error, response) {
+    console.log(geojsonhintResult)
+    return false;
   },
 
   findEndpoints: function () {
