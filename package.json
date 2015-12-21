@@ -3,8 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "dependencies": {
-      "chai": "~1.8.0",
-      "mocha":"2.0.1"
+    "chai": "~1.8.0",
+    "geojsonhint": "^1.1.0",
+    "mocha": "2.0.1",
+    "path": "^0.12.7"
   },
   "scripts": {
     "test": "mocha ./spec/geojsonLint.js"
