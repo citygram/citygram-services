@@ -11,12 +11,13 @@ opts = {
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
   features = body["features"].map do |record|
     attrs = record["properties"]
+    next if attrs["Type"].nil?
     oid = attrs["OBJECTID"]
     petition = attrs["Petition"]
     petitioner = attrs["Petitioner"]
     from_zone = attrs["ExistZone"]
     to_zone = attrs["ReqZone"]
-    r_type = attrs["Type"].downcase
+    r_type = attrs["Type"].downcase if attrs["Type"]
     title = <<-TITLE.oneline.gsub(/\.\.\.\./, '...')
       #{SpyGlass::Salutations.next} #{petitioner} filed a #{r_type} rezoning request from #{from_zone} to #{to_zone}.
       Learn more: #{attrs['Hyperlink']}
@@ -25,7 +26,8 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
     {
       'id' => record['properties']["OBJECTID"],
       'type' => 'Feature',
-      'properties' => record.merge('title' => title)
+      'properties' => attrs.merge('title' => title),
+      'geometry' => record["geometry"]
     }
   end
 
