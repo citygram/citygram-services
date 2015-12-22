@@ -31,5 +31,5 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
     }
   end
 
-  { 'type' => 'FeatureCollection', 'features' => features }
+  { 'type' => 'FeatureCollection', 'features' => features.reject{ |f| f.nil? } }
 end
