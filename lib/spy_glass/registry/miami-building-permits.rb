@@ -21,7 +21,7 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
-    time = Time.iso8601(item['ticket_created_date_time']).in_time_zone(time_zone)
+    time = Time.iso8601(item[0]['ticket_created_date_time']).in_time_zone(time_zone)
 
     city = item['city']
     title =
