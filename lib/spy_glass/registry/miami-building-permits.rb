@@ -3,13 +3,14 @@ require 'spy_glass/registry'
 
 time_zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
 
-source_base = 'https://opendata.miamidade.gov/resource/kw55-e2dj.json'
+source_base = 'https://opendata.miamidade.gov/resource/vvjq-pfmc.json'
 options = {
   '$limit' => 1000,
   '$order' => 'permit_issued_date DESC',
   '$where' => <<-WHERE.oneline
+    permit_issued_date IS NOT NULL AND
     permit_issued_date >= '#{7.days.ago.iso8601}' AND
-    Location IS NOT NULL
+    location IS NOT NULL
   WHERE
 }
 
