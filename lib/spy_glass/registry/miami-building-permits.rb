@@ -33,20 +33,12 @@ pp item
       "#{Time.iso8601(item['permit_issued_date']).strftime("%m/%d  %I:%M %p")} - A new building permit has been issued at #{item['street_address']} to #{item['owner_name']}."
 
     # title << " The complaint type is #{item['issue_type']} and the assigned agency is #{item['case_owner'].gsub('_', ' ')}."
-    location_regex = /\((-?[\d.]+)°,\s(-?[\d.]+)°\)/
-    location_match = location_regex.match item['location']
-
-
+    
+    
     {
       'id' => item['ticket_id'],
       'type' => 'Feature',
-      'geometry' => {
-        'type' => 'Point',
-        'coordinates' => [
-          location_match[1].to_f,
-          location_match[2].to_f
-        ]
-      },
+      'geometry' => item['location'],
       'properties' => item.merge('title' => title)
     }
   end
