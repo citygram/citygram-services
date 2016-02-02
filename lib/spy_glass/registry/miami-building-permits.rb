@@ -10,7 +10,7 @@ options = {
   '$order' => 'permit_issued_date DESC',
   '$where' => <<-WHERE.oneline
     permit_issued_date IS NOT NULL AND
-    permit_issued_date >= '#{7.days.ago.iso8601}' AND
+    permit_issued_date >= '#{7.days.ago.strftime("%Y-%m-%dT%H:%M:%S")}' AND
     location IS NOT NULL
   WHERE
 }
@@ -25,13 +25,12 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
-
-    time = Time.iso8601(item[0]['ticket_created_date_time']).in_time_zone(time_zone)
 pp item
+    time = Time.iso8601(item['permit_issued_date']).in_time_zone(time_zone)
 
     city = item['city']
     title =
-      "#{Time.iso8601(item['ticket_created_date_time']).strftime("%m/%d  %I:%M %p")} - A new building permit has been issued at #{item['street_address']} to #{item['owner_name']}."
+      "#{Time.iso8601(item['permit_issued_date']).strftime("%m/%d  %I:%M %p")} - A new building permit has been issued at #{item['street_address']} to #{item['owner_name']}."
 
     # title << " The complaint type is #{item['issue_type']} and the assigned agency is #{item['case_owner'].gsub('_', ' ')}."
     location_regex = /\((-?[\d.]+)°,\s(-?[\d.]+)°\)/
