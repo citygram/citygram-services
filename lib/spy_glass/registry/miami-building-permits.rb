@@ -6,9 +6,9 @@ time_zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
 source_base = 'https://opendata.miamidade.gov/resource/kw55-e2dj.json'
 options = {
   '$limit' => 1000,
-  '$order' => '"PERMIT-ISSUED-DATE" DESC',
+  '$order' => 'permit_issued_date DESC',
   '$where' => <<-WHERE.oneline
-    "PERMIT-ISSUED-DATE" >= '#{7.days.ago.iso8601}' AND
+    permit_issued_date >= '#{7.days.ago.iso8601}' AND
     Location IS NOT NULL
   WHERE
 }
