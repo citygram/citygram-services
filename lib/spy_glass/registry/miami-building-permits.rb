@@ -1,5 +1,6 @@
 # coding: utf-8
 require 'spy_glass/registry'
+require 'pp'
 
 time_zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
 
@@ -23,10 +24,10 @@ opts = {
 }
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
-raise collection.inspect
   features = collection.map do |item|
 
     time = Time.iso8601(item[0]['ticket_created_date_time']).in_time_zone(time_zone)
+pp item
 
     city = item['city']
     title =
