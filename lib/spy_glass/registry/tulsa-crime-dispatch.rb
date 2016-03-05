@@ -2,16 +2,21 @@ require 'spy_glass/registry'
 
 opts = {
   path: '/tulsa-crime-dispatch',
-  cache: SpyGlass::Cache::Memory.new(expires_in: 2400),
-  source: 'https://www.tulsacrimestreams.com/api/alerts'
+  cache: SpyGlass::Cache::Memory.new(expires_in: 300),
+  source: 'http://tulsacrimestream.com/api/alerts'
 }
 
 
+time_zone = ActiveSupport::TimeZone['Central Time (US & Canada)']
+
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
-  features = collection['Incidents']['Incident'].map do |item|
+  features = collection.map do |item|
+  
+    #time = Time.iso8601(DateTime.parse(item['updated_at'])).in_time_zone(time_zone).strftime("%m/%d %I:%M %p")
+time = DateTime.parse(item['updated_at']).in_time_zone(time_zone).strftime("%m/%d at %I:%M %p")
     title = <<-TITLE.oneline
       #{item['description']} in your area near #{item['address']} 
-      on #{item['updated_at']}.
+      on #{time}.
       See all police reports near you https://www.citygram.org/tulsa
     TITLE
     {
