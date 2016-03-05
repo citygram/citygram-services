@@ -3,19 +3,16 @@ require 'spy_glass/registry'
 opts = {
   path: '/tulsa-crime-dispatch',
   cache: SpyGlass::Cache::Memory.new(expires_in: 2400),
-  source: 'https://www.tulsacrimestreams.com/api/crimes'
+  source: 'https://www.tulsacrimestreams.com/api/alerts'
 }
 
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   features = collection['Incidents']['Incident'].map do |item|
     title = <<-TITLE.oneline
-      The Tulsa Police Department responded to 
-      a #{item['description']} was
-      reported at #{item['address']} 
-      This issue is considered #{item['class']}
+      #{item['description']} in your area near #{item['address']} 
       on #{item['updated_at']}.
-      See all the dispatches near you at https://www.citygram.org/tulsa
+      See all police reports near you https://www.citygram.org/tulsa
     TITLE
     {
       'id' => "#{item['id']}",
