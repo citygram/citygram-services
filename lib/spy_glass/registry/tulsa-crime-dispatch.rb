@@ -6,14 +6,11 @@ opts = {
   source: 'http://tulsacrimestream.com/api/alerts'
 }
 
-
 time_zone = ActiveSupport::TimeZone['Central Time (US & Canada)']
-
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |collection|
   features = collection.map do |item|
-  
-    #time = Time.iso8601(DateTime.parse(item['updated_at'])).in_time_zone(time_zone).strftime("%m/%d %I:%M %p")
-time = DateTime.parse(item['updated_at']).in_time_zone(time_zone).strftime("%m/%d at %I:%M %p")
+	# Format time and adjust for our timezone.
+	time = DateTime.parse(item['updated_at']).in_time_zone(time_zone).strftime("%m/%d at %I:%M %p")
     title = <<-TITLE.oneline
       #{item['description']} in your area near #{item['address']} 
       on #{time}.
