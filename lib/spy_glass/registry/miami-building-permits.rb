@@ -1,6 +1,5 @@
 # coding: utf-8
 require 'spy_glass/registry'
-require 'pp'
 
 time_zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
 
@@ -25,7 +24,6 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |item|
-pp item
     time = Time.iso8601(item['permit_issued_date']).in_time_zone(time_zone)
 
     city = item['city']
@@ -33,10 +31,10 @@ pp item
       "#{Time.iso8601(item['permit_issued_date']).strftime("%m/%d  %I:%M %p")} - A new building permit has been issued at #{item['street_address']} to #{item['owner_name']}."
 
     # title << " The complaint type is #{item['issue_type']} and the assigned agency is #{item['case_owner'].gsub('_', ' ')}."
-    
-    
+
+
     {
-      'id' => item['ticket_id'],
+      'id' => item['permit_number'],
       'type' => 'Feature',
       'geometry' => item['location'],
       'properties' => item.merge('title' => title)
