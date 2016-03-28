@@ -28,7 +28,7 @@ GEM
     money (6.1.1)
       i18n (~> 0.6.4)
     multipart-post (2.0.0)
-    newrelic_rpm (3.8.1.221)
+    newrelic_rpm (3.13.2.302)
     pg (0.17.1)
     rack (1.5.2)
     rack-cors (0.4.0)

@@ -35,5 +35,17 @@ cd citygram-services
 cp .env.sample .env
 gem install bundler
 bundle install
+bundle exec rake db:create db:migrate
+bundle exec rackup
+```
+
+### Vagrant
+
+You can setup a dev server with postres setup with Vagrant:
+
+```
+vagrant up
+vagrant ssh
+cd /vagrant
 bundle exec rackup
 ```
