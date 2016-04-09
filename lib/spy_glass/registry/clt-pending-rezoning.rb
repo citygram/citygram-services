@@ -5,14 +5,14 @@ require 'spy_glass/registry'
 opts = {
   path: '/clt-pending-rezoning',
   cache: SpyGlass::Cache::Memory.new(expires_in: 2400),
-  source: 'http://clt.charlotte.opendata.arcgis.com/datasets/28dd5cc6e9254140bfd603f44dd3f4a5_0.geojson?orderByFields=Received+DESC'
+  source: 'http://clt.charlotte.opendata.arcgis.com/datasets/e42bb7be0b654aeea83547df4a7dcf22_0.geojson'
 }
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
   features = body["features"].map do |record|
     attrs = record["properties"]
     next if attrs["Type"].nil?
-    oid = attrs["OBJECTID"]
+    oid = attrs["Petition"]
     petition = attrs["Petition"]
     petitioner = attrs["Petitioner"]
     from_zone = attrs["ExistZone"]
