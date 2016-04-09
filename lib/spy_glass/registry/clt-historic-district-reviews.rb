@@ -10,7 +10,7 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
   features = esri_formatted['features'].map do |feature|
     attributes = feature['properties']
     unique_id = attributes['OBJECTID']
-    next if feature['geometry'].nil? || attributes['ProjAddr'].nil?
+    next if feature['geometry'].nil? || feature['geometry']['type'] == 'MultiPolygon' || attributes['ProjAddr'].nil?
     desc_phrase = ''
     if attributes['ProjDesc']
       project_description = attributes['ProjDesc'].strip
