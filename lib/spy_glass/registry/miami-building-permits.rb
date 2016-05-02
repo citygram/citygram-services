@@ -28,7 +28,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
 
     city = item['city']
     title =
-      "#{Time.iso8601(item['permit_issued_date']).strftime("%m/%d  %I:%M %p")} - A new building permit has been issued at #{item['street_address']} to #{item['owner_name']}."
+      "#{Time.iso8601(item['permit_issued_date']).strftime("%m/%d  %I:%M %p")} - A new building permit has been issued at #{item['location_address']} to #{item['owner_name']}."
 
     # title << " The complaint type is #{item['issue_type']} and the assigned agency is #{item['case_owner'].gsub('_', ' ')}."
 
