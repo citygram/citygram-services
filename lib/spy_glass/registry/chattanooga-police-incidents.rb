@@ -6,13 +6,13 @@ opts = {
   path: '/chattanooga-police-incidents',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
   source: 'https://data.chattlibrary.org/resource/jstk-5mri.json?' + Rack::Utils.build_query({
-    '$order' => 'date_entered DESC',
+    '$order' => 'date_incident DESC',
     '$limit' => 1000,
     '$where' => <<-WHERE.oneline
       incident_description != 'Misc Report'
       AND latitude IS NOT NULL
       AND longitude IS NOT NULL
-      AND date_entered >= '#{7.days.ago.strftime("%Y-%m-%dT%H:%M:%S")}'
+      AND date_incident >= '#{7.days.ago.strftime("%Y-%m-%dT%H:%M:%S")}'
     WHERE
   })
 }
