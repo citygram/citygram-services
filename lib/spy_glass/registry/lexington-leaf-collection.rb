@@ -14,7 +14,8 @@ def helper.title(status, dates)
     when 'Next'
       "Hello! Leaf vacuuming is coming soon to your area. It's currently scheduled: #{dates}. We'll let you know if these dates change. #{prep} #{more}"
     when 'Pending'
-      "Hello! Leaf vacuuming in your area is currently scheduled: #{dates}. We'll let you know if these dates change. #{prep} If you've moved since last fall, please respond REMOVE and re-enroll in the text notification program for your new address by visiting #{link}"
+      nil
+      # "Hello! Leaf vacuuming in your area is currently scheduled: #{dates}. We'll let you know if these dates change. #{prep} If you've moved since last fall, please respond REMOVE and re-enroll in the text notification program for your new address by visiting #{link}"
     when 'Completed'
       "Hello! Leaf collection in your area is complete. For more information please visit #{link}"
   end
@@ -53,7 +54,7 @@ SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
     end
   end
 
-  { 'type' => 'FeatureCollection', 'features' => features }
+  { 'type' => 'FeatureCollection', 'features' => features.compact }
 end
 
 opts[:path] = '/lexington-leaf-collection-citygram-events-format'
