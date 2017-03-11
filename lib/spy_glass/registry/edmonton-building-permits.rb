@@ -3,9 +3,9 @@ require 'spy_glass/registry'
 time_zone = ActiveSupport::TimeZone["Mountain Time (US & Canada)"]
 
 opts = {
-  path: '/edmonton-building-permits.rb',
+  path: '/edmonton-building-permits',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
-  source: 'https://data.edmonton.ca/resource/rwuh-apwg.json' + Rack::Utils.build_query({
+  source: 'https://data.edmonton.ca/resource/rwuh-apwg?' + Rack::Utils.build_query({
     '$order' => 'permit_date DESC',
     '$limit' => 10,
     '$where' => " latitude IS NOT NULL" +
