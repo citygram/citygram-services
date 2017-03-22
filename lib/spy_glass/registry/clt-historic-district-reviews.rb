@@ -3,7 +3,7 @@ require 'spy_glass/registry'
 opts = {
   path: '/clt-historic-district-reviews',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
-  source: 'http://clt.charlotte.opendata.arcgis.com/datasets/694f78a23c194a0bae1847a7ff71618d_0.geojson'
+  source: 'http://clt-charlotte.opendata.arcgis.com/datasets/694f78a23c194a0bae1847a7ff71618d_0.geojson'
 }
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |esri_formatted|
