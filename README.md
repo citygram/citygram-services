@@ -24,6 +24,7 @@ TODO
 ### Who is this made by?
 - [Danny Whalen](https://github.com/invisiblefunnel)
 - [Erik Schwartz](https://github.com/eeeschwartz)
+- [Jim Van Fleet](https://github.com/bigfleet)
 
 ### Setup
 
