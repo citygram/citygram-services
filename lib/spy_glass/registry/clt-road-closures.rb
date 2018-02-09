@@ -3,7 +3,7 @@ require 'spy_glass/registry'
 opts = {
   path: '/clt-road-closures',
   cache: SpyGlass::Cache::Memory.new(expires_in: 2400),
-  source: 'http://clt-charlotte.opendata.arcgis.com/datasets/32526cecacdc4802bbacbdd76f246896_0.geojson'
+  source: 'http://clt-charlotte.opendata.arcgis.com/datasets/60a8293684d7419da3b4df9547bd71b8_0.geojson'
 }
 
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
