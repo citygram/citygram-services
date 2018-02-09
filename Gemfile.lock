@@ -22,7 +22,7 @@ GEM
     faraday_middleware (0.9.1)
       faraday (>= 0.7.4, < 0.10)
     i18n (0.6.9)
-    json (1.8.1)
+    json (1.8.6)
     kgio (2.9.2)
     minitest (5.3.5)
     money (6.1.1)
@@ -69,3 +69,9 @@ DEPENDENCIES
   sequel
   sinatra
   unicorn
+
+RUBY VERSION
+   ruby 2.5.0p0
+
+BUNDLED WITH
+   1.16.1
