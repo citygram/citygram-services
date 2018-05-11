@@ -1,13 +1,11 @@
 require 'spy_glass/registry'
 
-# code reuse from edmonton-building-permits.rb, to be modified when dev permit dataset is available
-
 time_zone = ActiveSupport::TimeZone["Mountain Time (US & Canada)"]
 
 opts = {
   path: '/edmonton-development-permits',
   cache: SpyGlass::Cache::Memory.new(expires_in: 300),
-  source: 'https://data.edmonton.ca/resource/rwuh-apwg?' + Rack::Utils.build_query({ # TODO: change to dev permit dataset when available
+  source: 'https://data.edmonton.ca/resource/8b78-2kux?' + Rack::Utils.build_query({ 
     '$order' => 'permit_date DESC',
     '$limit' => 10,
     '$where' => " latitude IS NOT NULL" +
@@ -17,13 +15,12 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |record|
-    # TODO: possibly modify
-    title = "A development permit #{record['permit_class']} was approved on #{record['issue_date']} at #{record['address']} as City File # #{record['permit_number']}. #{record['job_description']}."
+    title = "A development permit #{record['permit_class']} was approved on #{record['permit_date']} at #{record['address']}. #{record['description_of_development']}."
       {
-        'id'=> record['permit_number'],
+        'id'=> record['city_file_number'],
         'type'=> 'Feature',
         'properties' => record.merge('title' => title),
-        'job_description' => record['job_description'],
+        'job_description' => record['description_of_development'],
         'geometry' => {
           'type' => 'Point',
           'coordinates' => [
