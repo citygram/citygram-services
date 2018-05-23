@@ -15,7 +15,7 @@ opts = {
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |record|
-    title = "A development permit #{record['permit_class']} was approved on #{record['permit_date']} at #{record['address']}. #{record['description_of_development']}."
+    title = "A development permit #{record['permit_class']} was approved on #{record['permit_date'].strftime('%m/%d/%Y')} at #{record['address']}. #{record['description_of_development']}."
       {
         'id'=> record['city_file_number'],
         'type'=> 'Feature',
