@@ -8,7 +8,8 @@ opts = {
   source: 'https://data.edmonton.ca/resource/8b78-2kux?' + Rack::Utils.build_query({ 
     '$order' => 'permit_date DESC',
     '$limit' => 10,
-    '$where' => " latitude IS NOT NULL" +
+    '$where' => " permit_date IS NOT NULL" +
+                " latitude IS NOT NULL" +
                 " AND longitude IS NOT NULL"
   })
 }
