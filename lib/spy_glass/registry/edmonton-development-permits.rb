@@ -8,14 +8,16 @@ opts = {
   source: 'https://data.edmonton.ca/resource/8b78-2kux?' + Rack::Utils.build_query({ 
     '$order' => 'permit_date DESC',
     '$limit' => 10,
-    '$where' => " latitude IS NOT NULL" +
+    '$where' => " permit_date IS NOT NULL" +
+                " AND latitude IS NOT NULL" +
                 " AND longitude IS NOT NULL"
   })
 }
 
 SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |record|
-    title = "A development permit #{record['permit_class']} was approved on #{record['permit_date'].strftime('%m/%d/%Y')} at #{record['address']}. #{record['description_of_development']}."
+    #puts record.inspect
+    title = "A development permit #{record['permit_class'] } was approved on #{Date.parse(record['permit_date'])} at #{record['address']}. #{record['description_of_development']}."
       {
         'id'=> record['city_file_number'],
         'type'=> 'Feature',
