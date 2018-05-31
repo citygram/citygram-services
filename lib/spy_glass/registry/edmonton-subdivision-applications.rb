@@ -15,9 +15,9 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |record|
     title = nil
     if record['status'] == "In Review"
-        title = "A subdivision is in review at #{record['address']} as City File # #{record['filenumber']}."
+        title = "A subdivision application is currently in review for land at #{record['address']} (#{record['legaldesc']}) within the #{record['nhood']} neighbourhood."
     else
-        title = "A subdivision has been approved at #{record['address']} as City File # #{record['filenumber']}."  
+      title = "A subdivision application has been approved for land at #{record['address']} (#{record['legaldesc']}) within the #{record['nhood']} neighbourhood."  
     end
       {
         'id'=> record['filenumber'],
