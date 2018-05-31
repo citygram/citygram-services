@@ -1,4 +1,5 @@
 require 'spy_glass/registry'
+require "base64"
 
 time_zone = ActiveSupport::TimeZone["Mountain Time (US & Canada)"]
 
@@ -16,7 +17,7 @@ SpyGlass::Registry << SpyGlass::Client::Socrata.new(opts) do |collection|
   features = collection.map do |record|
     title = "#{record['details']}."
       {
-        'id'=> record['disruption_number'],
+        'id'=> Base64.encode64(record['details']),
         'type'=> 'Feature',
         'properties' => record.merge('title' => title),
         'geometry' => {
