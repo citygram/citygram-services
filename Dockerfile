@@ -17,4 +17,4 @@ COPY . .
 ENV PORT 9292
 ENV DATABASE_URL postgres://postgres@citygram_services_db/citygram_services
 
-CMD bundle exec rackup -o 0.0.0.0 -p $PORT
+CMD bundle exec rackup -s puma -o 0.0.0.0 -p $PORT
