@@ -10,7 +10,6 @@ opts = {
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
   features = body["features"].map do |record|
     attrs = record["properties"]
-    puts attrs.inspect
     next if attrs["Type"].nil?
     next if attrs["Status"] != "Pending" # only pending rezonings are relevant
     oid = attrs["Petition"]
