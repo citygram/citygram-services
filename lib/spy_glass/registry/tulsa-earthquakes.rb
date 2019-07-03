@@ -3,7 +3,7 @@ require 'spy_glass/registry'
 opts = {
   path: '/tulsa-earthquakes',
   cache: SpyGlass::Cache::Memory.new(expires_in: 2400),
-  source: 'http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=36.154135&longitude=-95.992828&maxradiuskm=100'
+  source: 'https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=36.154135&longitude=-95.992828&maxradiuskm=100'
 }
 
 
