@@ -3,7 +3,7 @@ require 'spy_glass/registry'
 opts = {
   path: '/tulsa-fire-dispatch',
   cache: SpyGlass::Cache::Memory.new(expires_in: 2400),
-  source: 'https://www.cityoftulsa.org/cot/opendata/tfd_dispatch.jsn'
+  source: 'https://www.cityoftulsa.org/apps/opendata/tfd_dispatch.jsn'
 }
 
 
