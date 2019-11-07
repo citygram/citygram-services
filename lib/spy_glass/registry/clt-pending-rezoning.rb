@@ -10,19 +10,25 @@ opts = {
 SpyGlass::Registry << SpyGlass::Client::JSON.new(opts) do |body|
   features = body["features"].map do |record|
     attrs = record["properties"]
-    next if attrs["Type"].nil?
-    next if attrs["Status"] != "Pending" # only pending rezonings are relevant
+    next if attrs["PlanType"].nil?
+    next if !["Pending", "In Progress"].include?(attrs["AppStatus"].strip)
     oid = attrs["Petition"]
     petition = attrs["Petition"]
-    petitioner = attrs["Petitioner"]
+    petitioner = attrs["Developer"]
     from_zone = attrs["ExistZone"]
-    to_zone = attrs["ReqZone"]
-    r_type = attrs["Type"].downcase if attrs["Type"]
-    title = <<-TITLE.oneline.gsub(/\.\.\.\./, '...')
-      #{petitioner} filed a #{r_type} rezoning request from #{from_zone} to #{to_zone}.
-      Learn more: #{attrs['Hyperlink']}
-    TITLE
-
+    to_zone = attrs["Zoning"]
+    r_type = attrs["PlanType"]
+    addr = attrs["Address"].strip
+    rz_petit = attrs["RezonPetit"]
+    proj = attrs["ProjName"]
+    status = attrs["AppStatus"].strip.downcase
+    t = "#{petitioner} has filed a rezoning request to #{to_zone}"
+    t << " (#{rz_petit})" if rz_petit.strip.length > 0
+    t << " for #{proj}"
+    t << " at #{addr}" if addr.strip.length > 0
+    t << ". Its status is #{status}"
+    t << ". Learn more: #{attrs['Hyperlink']}"
+    title = t.oneline.gsub(/\.\.\.\./, '...')
     {
       'id' => record['properties']["OBJECTID"],
       'type' => 'Feature',
