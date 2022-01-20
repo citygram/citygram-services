@@ -1,5 +1,5 @@
 require 'active_support/inflector/inflections'
-require 'active_support/time'
+# require 'active_support/time' Ruby 3.0 casualty [jvf]
 require 'action_view'
 require 'core_ext/string'
 require 'erb'
